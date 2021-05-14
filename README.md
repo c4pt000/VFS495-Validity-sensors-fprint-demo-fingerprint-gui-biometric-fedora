@@ -24,9 +24,10 @@ revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of f
 
 then sh install.sh must install on openssl 1.1.1k
 
-```
+
 
 install.sh as root "chmod +x install.sh"
+
 ```
 #!/bin/bash
 
