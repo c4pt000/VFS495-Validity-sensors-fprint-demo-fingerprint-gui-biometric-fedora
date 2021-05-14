@@ -11,52 +11,68 @@ might also require manual unpack of RPMS/SP84530_Validity-Sensor-Setup-4.5-136.0
 cp -rf SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm /
 rpm2cpio SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm | cpio -idmv
 
-then sh install.sh
-
-```
-```
-cp -rf etc/init.d/vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
-
-systemctl enable vcsFPServiceDaemon
-systemctl start vcsFPServiceDaemon
-
-export LC_ALL=C >> /root/.bashrc
-source /root/.bashrc
-cd /usr/lib64
-ln -s libcrypto.so.1.1 libcrypto.so.0.9.8
-ln -s libssl.so.1.1 libssl.so.0.9.8
-```
+then sh install.sh must install on openssl 1.1.1k
 
 ```
 
-
+install.sh as root "chmod +x install.sh"
+```
+#!/bin/bash
 
 cd /opt
 git clone https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
 cd Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
 cd RPMS
+
+export LC_ALL=C >> /root/.bashrc
+source /root/.bashrc
+
+ln -s /usr/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.0.9.8
+ln -s /usr/lib64/libssl.so.1.1 /usr/lib64/libssl.so.0.9.8
+
 cp -rf libfprint-0.0.6-2.x86_64.rpm /
 cd /
 rpm2cpio libfprint-0.0.6-2.x86_64.rpm | cpio -idmv
 ldconfig
-cd /opt/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
-cd RPMS
+
 rpm -Uvh pam_fprint-0.2-1.x86_64.rpm
 ln -s /usr/lib/security/pam_fprint.so /usr/lib64/security/pam_fprint.so
 
+
+rpm -Uvh --force Validity-Sensor-Setup-4.5-118.00.x86_64.rpm
+rm -rf /etc/rc.d/init.d/vcsFPServiceDaemon 
+cp -rf vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
+systemctl enable vcsFPServiceDaemon
+systemctl start vcsFPServiceDaemon
 
 echo "auth        sufficient    pam_fprint.so" >> /etc/pam.d/system-local-login
 echo "auth        sufficient    pam_fprint.so" >> /etc/pam.d/system-auth
 echo "auth        sufficient    pam_fprint.so" >> /etc/authselect/system-auth
 
 
-rpm -Uvh Validity-Sensor-Setup-4.5-118.00.x86_64.rpm
-cp -rf vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
-systemctl enable vcsFPServiceDaemon
-systemctl start vcsFPServiceDaemon
-export LC_ALL=C >> /root/.bashrc
-source /root/.bashrc
-ldconfig
+
+
+
+```
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+```
+
+
+
+
+
 
 ```
 # really buggy implementation
@@ -85,33 +101,7 @@ Validity-Sensor-Setup-4.5-118.00.x86_64
 ```
 
 
-install.sh as root "chmod +x install.sh"
-```
-#!/bin/bash
-export LC_ALL=C >> /root/.bashrc
-source /root/.bashrc
 
-ln -s /usr/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.0.9.8
-ln -s /usr/lib64/libssl.so.1.1 /usr/lib64/libssl.so.0.9.8
-
-cp -rf libfprint-0.0.6-2.x86_64.rpm /
-cd /
-rpm2cpio libfprint-0.0.6-2.x86_64.rpm | cpio -idmv
-ldconfig
-
-rpm -Uvh pam_fprint-0.2-1.x86_64.rpm
-ln -s /usr/lib/security/pam_fprint.so /usr/lib64/security/pam_fprint.so
-
-
-rpm -Uvh --force Validity-Sensor-Setup-4.5-118.00.x86_64.rpm
-rm -rf /etc/rc.d/init.d/vcsFPServiceDaemon 
-cp -rf vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
-systemctl enable vcsFPServiceDaemon
-systemctl start vcsFPServiceDaemon
-
-
-
-```
 <br>
 <br>
 <br>
