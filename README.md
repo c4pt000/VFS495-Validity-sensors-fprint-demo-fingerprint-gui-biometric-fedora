@@ -31,6 +31,9 @@ install.sh as root "chmod +x install.sh"
 ```
 #!/bin/bash
 
+yum reinstall redhat-lsb-core-4.1-52.fc34.x86_64 -y
+yum install fprintd-pam-1.90.9-2.fc34.x86_64
+
 cd /opt
 git clone https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
 cd Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
