@@ -5,6 +5,23 @@ revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of f
 
 ![s1](https://raw.githubusercontent.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/master/finger-detect-image.png)
 
+```
+cp -rf vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
+systemctl enable vcsFPServiceDaemon
+systemctl start vcsFPServiceDaemon
+```
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
 This project aims on reverse engineering protocol of Validity 138a:0090, 138a:0094, 138a:0097, 06cb:0081, 06cb:009a fingerprint readers, creating specification and FLOSS libfprint driver.
 
 ## Discussions
