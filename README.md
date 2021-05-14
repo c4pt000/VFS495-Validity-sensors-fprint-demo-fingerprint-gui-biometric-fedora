@@ -8,6 +8,11 @@ see restart-fingerprint.sh script
 
 
 
+
+
+
+
+
 # Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
 revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of fedora ~20)
 
@@ -79,6 +84,7 @@ chmod +x /usr/bin/restart-fingerprint.sh
 restart-fingerprint.sh
 ----------------------
 ```
+systemctl daemon-reload
 systemctl stop vcsFPServiceDaemon
 systemctl start vcsFPServiceDaemon
 ```
