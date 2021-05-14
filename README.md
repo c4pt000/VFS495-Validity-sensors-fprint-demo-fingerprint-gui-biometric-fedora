@@ -18,11 +18,9 @@ revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of f
 
 ![s1](https://raw.githubusercontent.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/master/finger-detect-image.png)
 ![s1](https://raw.githubusercontent.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/master/success-enroll.png)
-```
-might also require manual unpack of RPMS/SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm for sensor stability
 
-cp -rf SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm /
-rpm2cpio SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm | cpio -idmv
+# * dont use Validity-Sensor-Setup-4.5-136.0.x86_64.rpm creates more bugs?
+
 
 then sh install.sh must install on openssl 1.1.1k
 
