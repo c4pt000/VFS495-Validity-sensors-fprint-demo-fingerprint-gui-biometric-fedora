@@ -68,6 +68,18 @@ systemctl stop vcsFPServiceDaemon
 systemctl start vcsFPServiceDaemon
 ```
 
+restart script
+
+nano /usr/bin/restart-fingerprint.sh
+chmod +x /usr/bin/restart-fingerprint.sh
+
+restart-fingerprint.sh
+----------------------
+```
+systemctl stop vcsFPServiceDaemon
+systemctl start vcsFPServiceDaemon
+```
+
 command line enroll cli:
 <br>
 ```
