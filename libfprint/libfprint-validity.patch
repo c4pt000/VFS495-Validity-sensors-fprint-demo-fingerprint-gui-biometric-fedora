@@ -1,0 +1,906 @@
+---
+ libfprint/Makefile.am                   |    7 
+ libfprint/Makefile.in                   |   23 +
+ libfprint/core.c                        |    1 
+ libfprint/drivers/validity/vfsDriver.c  |  593 ++++++++++++++++++++++++++++++++
+ libfprint/drivers/validity/vfsDriver.h  |   65 +++
+ libfprint/drivers/validity/vfsWrapper.h |   78 ++++
+ libfprint/fp_internal.h                 |    4 
+ libfprint/imgdev.c                      |    4 
+ 8 files changed, 765 insertions(+), 8 deletions(-)
+
+--- a/libfprint/Makefile.am
++++ b/libfprint/Makefile.am
+@@ -8,6 +8,10 @@
+ AES2501_SRC = drivers/aes2501.c drivers/aes2501.h
+ AES4000_SRC = drivers/aes4000.c
+ FDU2000_SRC = drivers/fdu2000.c
++#validity -----
++VCS_SRCS    = drivers/validity/vfsDriver.c
++
++VCS_INCS    = -Idrivers/validity 
+ 
+ DRIVER_SRC = $(UPEKTS_SRC) $(URU4000_SRC) $(AES1610_SRC) $(AES2501_SRC) $(AES4000_SRC) $(UPEKTC_SRC) $(FDU2000_SRC)
+ 
+@@ -69,6 +73,7 @@
+ 	aeslib.c	\
+ 	aeslib.h	\
+ 	$(DRIVER_SRC)	\
+-	$(NBIS_SRC)
++	$(NBIS_SRC)     \
++        $(VCS_SRCS)
+ 
+ pkginclude_HEADERS = fprint.h
+--- a/libfprint/Makefile.in
++++ b/libfprint/Makefile.in
+@@ -53,9 +53,10 @@
+ libLTLIBRARIES_INSTALL = $(INSTALL)
+ LTLIBRARIES = $(lib_LTLIBRARIES)
+ am__DEPENDENCIES_1 =
++am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
+ libfprint_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+-	$(am__DEPENDENCIES_1)
++	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+ am__objects_1 = libfprint_la-upekts.lo
+ am__objects_2 = libfprint_la-uru4000.lo
+ am__objects_3 = libfprint_la-aes1610.lo
+@@ -80,9 +81,11 @@
+ 	libfprint_la-remove.lo libfprint_la-ridges.lo \
+ 	libfprint_la-shape.lo libfprint_la-sort.lo \
+ 	libfprint_la-util.lo
++am__objects_10 = libfprint_la-vfsDriver.lo
+ am_libfprint_la_OBJECTS = libfprint_la-core.lo libfprint_la-data.lo \
+ 	libfprint_la-img.lo libfprint_la-imgdev.lo \
+-	libfprint_la-aeslib.lo $(am__objects_8) $(am__objects_9)
++	libfprint_la-aeslib.lo $(am__objects_8) $(am__objects_9) \
++	$(am__objects_10)
+ libfprint_la_OBJECTS = $(am_libfprint_la_OBJECTS)
+ libfprint_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+ 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libfprint_la_CFLAGS) \
+@@ -227,6 +230,7 @@
+ srcdir = @srcdir@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
++top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ lib_LTLIBRARIES = libfprint.la
+@@ -237,6 +241,10 @@
+ AES2501_SRC = drivers/aes2501.c drivers/aes2501.h
+ AES4000_SRC = drivers/aes4000.c
+ FDU2000_SRC = drivers/fdu2000.c
++#validity -----
++VCS_SRCS = drivers/validity/vfsDriver.c
++VCS_INCS = -Idrivers/validity  
++#validity -----
+ DRIVER_SRC = $(UPEKTS_SRC) $(URU4000_SRC) $(AES1610_SRC) $(AES2501_SRC) $(AES4000_SRC) $(UPEKTC_SRC) $(FDU2000_SRC)
+ NBIS_SRC = \
+ 	nbis/include/bozorth.h \
+@@ -287,7 +295,8 @@
+ 	aeslib.c	\
+ 	aeslib.h	\
+ 	$(DRIVER_SRC)	\
+-	$(NBIS_SRC)
++	$(NBIS_SRC)     \
++        $(VCS_SRCS)
+ 
+ pkginclude_HEADERS = fprint.h
+ all: all-am
+@@ -399,6 +408,7 @@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfprint_la-upekts.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfprint_la-uru4000.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfprint_la-util.Plo@am__quote@
++@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfprint_la-vfsDriver.Plo@am__quote@
+ 
+ .c.o:
+ @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@@ -701,6 +711,13 @@
+ @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+ @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfprint_la_CFLAGS) $(CFLAGS) -c -o libfprint_la-util.lo `test -f 'nbis/mindtct/util.c' || echo '$(srcdir)/'`nbis/mindtct/util.c
+ 
++libfprint_la-vfsDriver.lo: drivers/validity/vfsDriver.c
++@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfprint_la_CFLAGS) $(CFLAGS) -MT libfprint_la-vfsDriver.lo -MD -MP -MF $(DEPDIR)/libfprint_la-vfsDriver.Tpo -c -o libfprint_la-vfsDriver.lo `test -f 'drivers/validity/vfsDriver.c' || echo '$(srcdir)/'`drivers/validity/vfsDriver.c
++@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfprint_la-vfsDriver.Tpo $(DEPDIR)/libfprint_la-vfsDriver.Plo
++@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='drivers/validity/vfsDriver.c' object='libfprint_la-vfsDriver.lo' libtool=yes @AMDEPBACKSLASH@
++@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
++@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfprint_la_CFLAGS) $(CFLAGS) -c -o libfprint_la-vfsDriver.lo `test -f 'drivers/validity/vfsDriver.c' || echo '$(srcdir)/'`drivers/validity/vfsDriver.c
++
+ mostlyclean-libtool:
+ 	-rm -f *.lo
+ 
+--- a/libfprint/core.c
++++ b/libfprint/core.c
+@@ -335,6 +335,7 @@
+ 	&aes4000_driver,
+ 	&upektc_driver,
+ 	&fdu2000_driver,
++	&validity_driver,
+ };
+ 
+ static void register_drivers(void)
+--- /dev/null
++++ b/libfprint/drivers/validity/vfsDriver.c
+@@ -0,0 +1,593 @@
++
++
++/*! @file vfsDriver.c
++*******************************************************************************
++* libfprint Interface Functions
++*
++* This file contains the libfprint interface functions for validity fingerprint sensor device.
++*
++* Copyright 2006 Validity Sensors, Inc. 
++
++* This library is free software; you can redistribute it and/or
++* modify it under the terms of the GNU Lesser General Public
++* License as published by the Free Software Foundation; either
++* version 2.1 of the License, or (at your option) any later version.
++*
++* This library is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++* Lesser General Public License for more details.
++*
++* You should have received a copy of the GNU Lesser General Public
++* License along with this library; if not, write to the Free Software
++* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++*/
++
++#include <errno.h>
++#include <string.h>
++#include <glib.h>
++#include <usb.h>
++#include <fp_internal.h>
++#include <stdio.h>
++#include <dlfcn.h>
++#include "vfsDriver.h"
++#include "vfsWrapper.h"
++#include <syslog.h>
++
++
++static int dev_init( struct fp_img_dev *dev,
++                     unsigned long driver_data );
++
++static void dev_exit( struct fp_img_dev *dev );
++
++static int capture( struct fp_img_dev *dev,
++                    gboolean initial,
++                    struct fp_img **img );
++
++static int enroll( struct fp_dev *dev,
++                   gboolean initial,
++                   int stage,
++                   struct fp_print_data **ret,
++                   struct fp_img **_img );
++
++static const struct usb_id id_table[] = {
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_301,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_451,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_5111,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_5011,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_471,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_5131,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_491,  },
++    { .vendor = VALIDITY_VENDOR_ID, .product = VALIDITY_PRODUCT_ID_495,  },
++    { 0, 0, 0, }, /* terminating entry */
++};
++
++struct fp_img_driver  validity_driver = {
++    .driver = {
++        .id = VALIDITY_DRIVER_ID,
++        .name = VALIDITY_FP_COMPONENT,
++        .full_name = VALIDITY_DRIVER_FULLNAME,
++        .id_table = id_table,
++    },
++    .init = dev_init,
++    .exit = dev_exit,
++    .capture = capture,
++};
++
++/*!
++*******************************************************************************
++** Creates Validity's client context object. Waits until the sensor is
++** ready for use or response time out of Validity's stack.
++**
++** @param[in,out]    dev,driver_data
++**       Pointer to the device structure
++**       Unsigned long  driver_data
++**
++** @return
++**       -  0 on success
++**       - -1 on failure 
++*/
++
++static int dev_init(struct fp_img_dev *dev, unsigned long driver_data)
++{
++    validity_dev* pValidityDriver = NULL;  
++    void *handle = NULL;
++    PtrVfsWaitForService ptrVfsWaitForService = NULL;
++    int vfsWrapperResult = 0;
++
++    if (NULL == dev)
++    {
++       fp_err("NULL device structure");
++       vfsWrapperResult = -EINVAL;
++       goto cleanup;
++    }
++
++    /* only look for presence of validity driver, else exit
++     * open will happen again in capture */
++    handle = dlopen ("libvfsFprintWrapper.so", RTLD_LAZY | RTLD_GLOBAL | RTLD_NODELETE);
++    if (!handle) {
++        fputs (dlerror(), stderr);
++	return -ENODEV;
++    }
++   /* wait for validity device to come up and be ready to take a finger swipe
++     * Wait will happen for a stipulated time(10s - 40s), then errors */
++    ptrVfsWaitForService = dlsym(handle, "vfs_wait_for_service");
++    if( ptrVfsWaitForService )
++    {
++        vfsWrapperResult = (*ptrVfsWaitForService)();
++        if (vfsWrapperResult != VFS_RESULT_WRAPPER_OK)
++        {
++            fp_err("VFS module failed to wait for service");
++            vfsWrapperResult = -EPERM;
++            dlclose(handle);
++            goto cleanup;
++        }
++    }
++    dlclose(handle);
++
++    pValidityDriver = g_malloc(sizeof(validity_dev));
++    if (NULL == pValidityDriver)
++    {
++       vfsWrapperResult = -ENOMEM;
++       goto cleanup;
++    }
++    memset(pValidityDriver, 0, sizeof(validity_dev));
++
++    dev->priv = pValidityDriver;
++    dev->dev->nr_enroll_stages = 1;
++    dev->dev->drv->enroll = enroll;
++
++cleanup:
++    return vfsWrapperResult;
++}
++
++/*!
++*******************************************************************************
++** Closes the opened sensor. Destroys Validity's client context object. Frees
++** allocated resources
++**
++** @param[in]    dev
++**       Pointer to the device structure
++**
++** @return
++*/
++
++static void dev_exit(struct fp_img_dev *dev)
++{
++    validity_dev* pValidityDriver = NULL;
++
++    if (NULL != dev)
++    {
++        if (NULL != dev->priv)
++        {
++            /* perform cleanup */
++            pValidityDriver = dev->priv;
++            g_free(pValidityDriver);
++            pValidityDriver = NULL;
++            dev->priv = NULL;
++       }
++    }
++}
++
++/*!
++*******************************************************************************
++** Captures the finger print and stores the same. Copies the image to the fp_img
++** structure and raw data to the fp_print_data structure on enroll success.
++**
++**
++** @param[in,in,in,out,out]    dev,initial,stage,_data,img
++**       Pointer to the device structure
++**       boolean flag for ditermining the initial state
++**       int for determining the current stage of enrollment
++**       Pointer to the finger print data
++**       Pointer to the pointer of image structure
++**
++** @return
++**       enum fp_enroll_result
++*/
++#define EXIT_ON_DLSYM_ERROR(x) if( !x )                \
++                            {                             \
++                                fputs (dlerror(), stderr);\
++                                return -ENODEV;           \
++                            }
++
++static int capture( struct fp_img_dev *dev,
++                    gboolean initial,
++                    struct fp_img **img)
++{
++    validity_dev* pValidityDriver = NULL;
++    struct fp_img *pImg = NULL;
++    unsigned int data_len = 0;
++    unsigned char* pImgData = NULL;
++    int vfsWrapperResult = FP_CAPTURE_ERROR;
++   
++    void *handle = NULL;
++
++    PtrVfsSetMatcherType ptrVfsSetMatcherType= NULL;
++    PtrVfsCapture ptrVfsCapture = NULL;
++    PtrVfsDevInit ptrVfsDevInit = NULL;
++    PtrVfsGetImgDatasize ptrVfsGetImgDatasize = NULL;
++    PtrVfsGetImgWidth ptrVfsGetImgWidth = NULL;
++    PtrVfsGetImgHeight ptrVfsGetImgHeight = NULL;
++    PtrVfsGetImgData ptrVfsGetImgData = NULL;
++    PtrVfsFreeImgData ptrVfsFreeImgData = NULL;
++    PtrVfsCleanHandles ptrVfsCleanHandles = NULL;
++    PtrVfsDevExit ptrVfsDevExit = NULL;
++
++    openlog("Validity-capture",LOG_CONS |LOG_NDELAY,LOG_DAEMON);
++
++    handle = dlopen ("libvfsFprintWrapper.so", RTLD_LAZY | RTLD_GLOBAL | RTLD_NODELETE);
++    if (!handle) {
++        fputs (dlerror(), stderr);
++        return -ENODEV;
++    }
++
++    syslog(LOG_WARNING,"Entry\n");
++    if ( (NULL == dev) ||
++        (NULL == dev->priv) )
++    {
++       vfsWrapperResult = -EINVAL;
++       fp_err("NULL Validity device structure");
++       goto cleanup;
++    }
++    pValidityDriver = dev->priv;
++
++    /* Set the matcher type */
++    ptrVfsSetMatcherType = dlsym(handle, "vfs_set_matcher_type");
++
++    EXIT_ON_DLSYM_ERROR(ptrVfsSetMatcherType);
++
++    (*ptrVfsSetMatcherType)(VFS_FPRINT_MATCHER);
++ 
++    ptrVfsDevInit = dlsym(handle, "vfs_dev_init");
++    
++    EXIT_ON_DLSYM_ERROR(ptrVfsDevInit);
++    
++    vfsWrapperResult = (*ptrVfsDevInit)(pValidityDriver);
++    
++    if (vfsWrapperResult != VFS_RESULT_WRAPPER_OK)
++    {
++       fp_err("VFS module failed to initialize");
++       vfsWrapperResult = -EPERM;
++       goto cleanup;
++    }
++    
++    
++    ptrVfsCapture = dlsym(handle, "vfs_capture");
++    EXIT_ON_DLSYM_ERROR(ptrVfsCapture);
++    
++    vfsWrapperResult =  (*ptrVfsCapture)(pValidityDriver,initial);
++
++    if ( vfsWrapperResult == FP_CAPTURE_COMPLETE )
++    {
++        /* need to check here */
++
++        ptrVfsGetImgDatasize = dlsym(handle, "vfs_get_img_datasize");
++
++	EXIT_ON_DLSYM_ERROR(ptrVfsGetImgDatasize);
++
++        data_len = (*ptrVfsGetImgDatasize)(pValidityDriver);
++        if(data_len == 0)
++        {
++            fp_err("Zero image size");
++            vfsWrapperResult = -ENODATA;
++            goto cleanup;
++        }
++
++        pImg = fpi_img_new(data_len);
++        if (NULL == pImg)
++        {
++            *img = NULL;
++            fp_err("Failed allocate memory for finger print image");
++            vfsWrapperResult = -ENOMEM;
++            goto cleanup;
++        }
++        memset(pImg,0,data_len);
++        pImg->length = data_len;
++
++         ptrVfsGetImgWidth = dlsym(handle, "vfs_get_img_width");
++
++        EXIT_ON_DLSYM_ERROR( ptrVfsGetImgWidth);
++        pImg->width =(* ptrVfsGetImgWidth)(pValidityDriver);
++          
++         ptrVfsGetImgHeight = dlsym(handle, "vfs_get_img_height");
++
++	EXIT_ON_DLSYM_ERROR(ptrVfsGetImgHeight);
++        pImg->height =(*ptrVfsGetImgHeight)(pValidityDriver);
++
++        syslog(LOG_WARNING,"%d x %d image returned\n", pImg->width, pImg->height );
++
++        ptrVfsGetImgData = dlsym(handle, "vfs_get_img_data");
++
++        EXIT_ON_DLSYM_ERROR(ptrVfsGetImgData);
++        pImgData =(*ptrVfsGetImgData)(pValidityDriver);
++
++        if (NULL != pImgData)
++        {
++            g_memmove(pImg->data,pImgData,data_len);
++            *img = pImg;
++              
++            ptrVfsFreeImgData = dlsym(handle, "vfs_free_img_data");
++
++	    EXIT_ON_DLSYM_ERROR(ptrVfsFreeImgData);
++            (*ptrVfsFreeImgData)(pImgData);
++
++            pImgData = NULL;
++        }
++        else
++        {
++            *img = NULL;
++            vfsWrapperResult = -ENODATA;
++            fp_err("Failed to get finger print image data");
++            goto cleanup;
++        }
++    }
++    
++    if( vfsWrapperResult == FP_CAPTURE_ERROR )
++    {
++        fp_err("Invalid vfsWrapperResult ");
++        vfsWrapperResult = -EIO;
++    }
++
++cleanup:
++
++    ptrVfsCleanHandles = dlsym(handle, "vfs_clean_handles");
++    EXIT_ON_DLSYM_ERROR(ptrVfsCleanHandles);
++    
++
++    (*ptrVfsCleanHandles)(pValidityDriver);
++
++    if ( (FP_CAPTURE_FAIL== vfsWrapperResult) ||
++         (-EPROTO ==        vfsWrapperResult) ||
++         (-EIO ==           vfsWrapperResult) ||
++         (-EINVAL ==        vfsWrapperResult) ||
++         (-ENOMEM ==        vfsWrapperResult) ||
++         (-ENODATA ==       vfsWrapperResult) )
++    {
++        if (NULL != pImg)
++        {
++            fp_img_free(pImg);
++        }
++    }
++
++    ptrVfsDevExit = dlsym(handle, "vfs_dev_exit");
++    EXIT_ON_DLSYM_ERROR(ptrVfsDevExit);
++
++    (*ptrVfsDevExit)(pValidityDriver);
++
++    dlclose(handle);
++
++    
++	syslog(LOG_WARNING,"Exit");
++
++    if ( vfsWrapperResult == FP_CAPTURE_COMPLETE )
++    {
++        return 0;
++    }
++    else
++    {
++        return -1;
++    }
++}
++
++#define VAL_MIN_ACCEPTABLE_MINUTIAE (2*MIN_ACCEPTABLE_MINUTIAE)
++#define VAL_DEFAULT_THRESHOLD 60
++
++#define POP_MESSAGE_ENABLE 1
++#define POP_MESSAGE(X)   if(getenv("DISPLAY") && fork()== 0)		\
++                         {                                                                \
++                             system("xmessage -timeout 2 -center "#X);                    \
++                             _exit(0);                                                    \
++                         }
++
++static int enroll(struct fp_dev *dev, gboolean initial, int stage,
++    struct fp_print_data **ret, struct fp_img **_img)
++{
++    struct fp_img *img = NULL;
++    struct fp_img_dev *imgdev = dev->priv;
++    struct fp_print_data *print = NULL;
++    int r;
++
++    /* we will make 6 capture attempts to capture at least 3 good prints */
++    int ii, iCapt = 0, iGood = 0, iDiff = 0;
++    struct fp_img *imgG[3] = {0};
++    struct fp_print_data *printG[3] = {0};
++    int match_score01, match_score12, match_score20;
++    int thresh = VAL_DEFAULT_THRESHOLD;
++
++    while( ( iCapt < 6 ) && ( iGood < 3 ) )
++    {
++#if POP_MESSAGE_ENABLE
++        /* intimate user about previous unsuccessful swipe */
++        if( ( iCapt - iGood ) > iDiff )
++        {
++            POP_MESSAGE("bad swipe, please try again ");
++            iDiff = iCapt - iGood;
++        }
++#endif
++
++        img = NULL;
++        r = fpi_imgdev_capture(imgdev, 0, &img);
++        iCapt++;
++
++        /* If we got an image, standardize it. */
++        if (img)
++            fp_img_standardize(img);
++        if (r)
++        {
++            if(img)
++                fp_img_free(img);
++            img = NULL;
++            continue;
++        }
++
++        print = NULL;
++        r = fpi_img_to_print_data(imgdev, img, &print);
++        if (r < 0)
++        {
++            if(img)
++                fp_img_free(img);
++            img = NULL;
++            if(print)
++                fp_print_data_free(print);
++            print = NULL;
++            continue;
++        }
++        /*printf( "MINUTIAE - %d, min required - %d\n", img->minutiae->num, MIN_ACCEPTABLE_MINUTIAE );*/
++        if (img->minutiae->num < VAL_MIN_ACCEPTABLE_MINUTIAE) {
++            fp_dbg("not enough minutiae, %d/%d", r, VAL_MIN_ACCEPTABLE_MINUTIAE);
++
++            if(img)
++                fp_img_free(img);
++            img = NULL;
++
++            if(print)
++                fp_print_data_free(print);
++            print = NULL;
++
++            continue;
++        }
++
++        /* save the good image and print */
++        imgG[iGood] = img;
++        printG[iGood] = print;
++        iGood++;
++
++#if POP_MESSAGE_ENABLE
++        /* intimate user about successful swipe */
++        if( iGood == 1 )
++        {
++            POP_MESSAGE("1 good swipe captured 2 to go ");
++        }
++        else if( iGood == 2 )
++        {
++            POP_MESSAGE("2 good swipes captured 1 to go ");
++        }
++        else if( iGood == 3 )
++        {
++            POP_MESSAGE("3 good swipes captured DONE ");
++        }
++#endif
++    }
++
++    if( iGood == 0 )
++    {
++        return -1;
++    }
++
++    if( iGood < 3 )
++    {
++        goto err;
++    }
++
++    /* 3 successful captures, get their match scores */
++    match_score01 = fpi_img_compare_print_data( printG[0], printG[1] );
++    match_score12 = fpi_img_compare_print_data( printG[1], printG[2] );
++    match_score20 = fpi_img_compare_print_data( printG[2], printG[0] );
++
++    if( ( match_score01 >= match_score12 ) && ( match_score20 >= match_score12 ) )
++    {
++        /* 0 is the best print, pick it and clean up others */
++        if( ( match_score01 >= thresh ) || ( match_score20 >= thresh ) )
++        {
++            /* best print has at least one good match */
++            if (_img)
++                *_img = imgG[0];
++            *ret = printG[0];
++
++            fp_img_free(imgG[1]);
++            fp_img_free(imgG[2]);
++
++            fp_print_data_free(printG[1]);
++            fp_print_data_free(printG[2]);
++        }
++        else
++        {
++            goto err;
++        }
++    }
++    else if( ( match_score12 >= match_score20 ) && ( match_score01 >= match_score20 ) )
++    {
++        /* 1 is the best print, pick it and clean up others */
++        if( ( match_score12 >= thresh ) || ( match_score01 >= thresh ) )
++        {
++            /* best print has at least one good match */
++            if (_img)
++                *_img = imgG[1];
++            *ret = printG[1];
++
++            fp_img_free(imgG[2]);
++            fp_img_free(imgG[0]);
++
++            fp_print_data_free(printG[2]);
++            fp_print_data_free(printG[0]);
++        }
++        else
++        {
++            goto err;
++        }
++    }
++    else if( ( match_score20 >= match_score01 ) && ( match_score12 >= match_score01 ) )
++    {
++        /* 2 is the best print, pick it and clean up others */
++        if( ( match_score20 >= thresh ) || ( match_score12 >= thresh ) )
++        {
++            /* best print has at least one good match */
++            if (_img)
++                *_img = imgG[2];
++            *ret = printG[2];
++
++            fp_img_free(imgG[0]);
++            fp_img_free(imgG[1]);
++
++            fp_print_data_free(printG[0]);
++            fp_print_data_free(printG[1]);
++        }
++        else
++        {
++            goto err;
++        }
++    }
++    else
++    {
++        printf( "SHOULD NEVER BE HERE\n" );
++        return -1;
++    }
++
++#if POP_MESSAGE_ENABLE
++    /* intimate user about successful enrollment */
++    POP_MESSAGE("Enrollment Success ");
++#endif
++
++    return FP_ENROLL_COMPLETE;
++
++err:
++
++#if POP_MESSAGE_ENABLE
++    /* intimate user about unsuccessful enrollment */
++    if( iGood < 3 )
++    {
++        POP_MESSAGE("Enrollment Failure, not enough good swipes ");
++    }
++    else
++    {
++        POP_MESSAGE("Enrollment Failure, inconsistent images ");
++    }
++#endif
++
++    /* clean up */
++    if (_img)
++        *_img = imgG[0];
++
++    for( ii = 1; ii < iGood; ii++ )
++    {
++        fp_img_free(imgG[ii]);
++    }
++
++    for( ii = 0; ii < iGood; ii++ )
++    {
++        fp_print_data_free(printG[ii]);
++    }
++    /* return */
++    return FP_ENROLL_RETRY;
++}
+--- /dev/null
++++ b/libfprint/drivers/validity/vfsDriver.h
+@@ -0,0 +1,65 @@
++
++/*! @file vfsDriver.h
++*******************************************************************************
++* libfprint Interface Functions
++*
++* This file contains the libfprint interface functions and definitions
++*
++* Copyright 2006 Validity Sensors, Inc. 
++
++* This library is free software; you can redistribute it and/or
++* modify it under the terms of the GNU Lesser General Public
++* License as published by the Free Software Foundation; either
++* version 2.1 of the License, or (at your option) any later version.
++*
++* This library is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++* Lesser General Public License for more details.
++*
++* You should have received a copy of the GNU Lesser General Public
++* License along with this library; if not, write to the Free Software
++* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++*/
++
++#ifndef __vfsDriver_h__
++#define __vcsDriver_h__
++
++#define VCS_MAX_FINGER              10
++#define VALIDITY_DRIVER_ID          10
++#define VALIDITY_VENDOR_ID          0x138A
++#define VALIDITY_PRODUCT_ID_301     0x0005  
++#define VALIDITY_PRODUCT_ID_451     0x0007
++#define VALIDITY_PRODUCT_ID_5111    0x0010
++#define VALIDITY_PRODUCT_ID_5011    0x0011
++#define VALIDITY_PRODUCT_ID_471	    0x003c
++#define VALIDITY_PRODUCT_ID_5131    0x0018
++#define VALIDITY_PRODUCT_ID_491	    0x003d
++#define VALIDITY_PRODUCT_ID_495	    0x003f
++#define VALIDITY_DRIVER_FULLNAME    "Validity Sensors"
++#define VALIDITY_FP_COMPONENT       "Validity"
++#define MAX_ENROLLMENT_PRINTS	    3
++#define MAX_TEMPLATES		        10
++#define VFS_NT_MATCHER	    	    1
++#define VFS_COGENT_MATCHER	    2
++#define VFS_FPRINT_MATCHER     3
++
++#define VFS_RESULT_WRAPPER_OK 0
++
++enum fp_capture_result
++{
++    FP_CAPTURE_ERROR = -1,
++    FP_CAPTURE_COMPLETE = 1,
++    FP_CAPTURE_FAIL
++};
++
++typedef struct validity_dev_s 
++{
++    void *pValidityCtx;
++    void *hImage;
++    void *pEnrollData;
++}validity_dev;
++
++#endif	__vfsDriver_h__ 
++  
++
+--- /dev/null
++++ b/libfprint/drivers/validity/vfsWrapper.h
+@@ -0,0 +1,78 @@
++
++/*! @file vfsWrapper.h
++*******************************************************************************
++* Helper functions for Validity driver interface functions
++*
++* This file contains the Helper functions for Validity driver interface functions
++* and their definitions
++*
++* Copyright 2006 Validity Sensors, Inc. 
++
++* This library is free software; you can redistribute it and/or
++* modify it under the terms of the GNU Lesser General Public
++* License as published by the Free Software Foundation; either
++* version 2.1 of the License, or (at your option) any later version.
++*
++* This library is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++* Lesser General Public License for more details.
++*
++* You should have received a copy of the GNU Lesser General Public
++* License along with this library; if not, write to the Free Software
++* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++*/
++
++#ifndef __vfsWrapper_h__
++#define __vfsWrapper_h__
++
++int vfs_dev_init( void* pValidityDriver );
++
++void vfs_dev_exit( void* pValidityDriver );
++
++int vfs_capture( void* pValidityDriver,
++   	            int initial);
++int vfs_enroll( void* pValidityDriver,
++   	            int initial,
++   	            int stage,
++	            unsigned char** ppFPrintData,
++	            int *nFPrintDataSize );
++
++int vfs_verify( void* pValidityDriver,
++   	            unsigned char* pFPrintData,
++	            int nFPrintDataSize );
++
++int vfs_identify( void* pValDriver,
++                  unsigned char **ppTemplatesData,
++                  int *pTemplatesDataLengths,
++                  int *pMatch_offset,
++                  int nItems );
++
++int vfs_get_img_width( void* pValidityContext );
++
++int vfs_get_img_height( void* pValidityContext );
++
++int vfs_get_img_datasize( void* pValidityContext );
++
++unsigned char* vfs_get_img_data( void* pValidityContext );
++
++void vfs_free_img_data( unsigned char* pImgData );
++
++int vfs_get_matcher_type();
++
++int vfs_set_matcher_type(int matcherType);  
++
++
++typedef int (*PtrVfsDevInit)(void *);
++typedef void (*PtrVfsCleanHandles)(void *);
++typedef int (*PtrVfsWaitForService)(void);
++typedef unsigned char* (*PtrVfsGetImgData)(void *);
++typedef void (*PtrVfsFreeImgData)(unsigned char *);
++typedef  int (*PtrVfsSetMatcherType)(int);
++typedef int (*PtrVfsCapture)(void *, int);
++typedef int (*PtrVfsGetImgDatasize) (void *);
++typedef int (*PtrVfsGetImgWidth) (void *);
++typedef int (*PtrVfsGetImgHeight) (void *);
++typedef void (*PtrVfsDevExit)(void *);
++
++#endif /*vfsWrapper */
+--- a/libfprint/fp_internal.h
++++ b/libfprint/fp_internal.h
+@@ -125,6 +125,9 @@
+ /* flags for fp_img_driver.flags */
+ #define FP_IMGDRV_SUPPORTS_UNCONDITIONAL_CAPTURE (1 << 0)
+ 
++#define BOZORTH3_DEFAULT_THRESHOLD 40
++#define MIN_ACCEPTABLE_MINUTIAE 10
++
+ struct fp_img_driver {
+ 	struct fp_driver driver;
+ 	uint16_t flags;
+@@ -150,6 +153,7 @@
+ extern struct fp_img_driver aes2501_driver;
+ extern struct fp_img_driver aes4000_driver;
+ extern struct fp_img_driver fdu2000_driver;
++extern struct fp_img_driver validity_driver;
+ 
+ void fpi_img_driver_setup(struct fp_img_driver *idriver);
+ 
+--- a/libfprint/imgdev.c
++++ b/libfprint/imgdev.c
+@@ -223,8 +223,6 @@
+ 	return -EIO;
+ }
+ 
+-#define MIN_ACCEPTABLE_MINUTIAE 10
+-
+ int img_dev_enroll(struct fp_dev *dev, gboolean initial, int stage,
+ 	struct fp_print_data **ret, struct fp_img **_img)
+ {
+@@ -260,8 +258,6 @@
+ 	return FP_ENROLL_COMPLETE;
+ }
+ 
+-#define BOZORTH3_DEFAULT_THRESHOLD 40
+-
+ static int img_dev_verify(struct fp_dev *dev,
+ 	struct fp_print_data *enrolled_print, struct fp_img **_img)
+ {

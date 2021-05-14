@@ -1,0 +1,133 @@
+commit f576f8cf7ce8ad4431f2f73f9588a67266ee5a44
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 22 18:08:31 2007 +0000
+
+    v0.4 release
+
+commit 615617866382076aeab0d66cf360838d7246334a
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Nov 21 17:07:23 2007 +0000
+
+    Add identification tab
+
+commit bf58f05f05c325eefedbd4ddf7db26b994dced70
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 19 18:57:16 2007 +0000
+
+    v0.3 release
+
+commit d06de125125d364e4fe98beeda7fbb3542aab492
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 19 18:56:12 2007 +0000
+
+    Add functionality to delete enroll data
+
+commit b2d5347666486954ee18cfebbcad836acdc2dbc2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 19 00:28:13 2007 +0000
+
+    Minutiae counting/plotting functionality
+    
+    We now store the images from libfprint rather than pixbufs, which is
+    cleaner.
+
+commit b04fdf1f156165bfcc8fe95a7831a3c1fb9f140d
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 17:57:03 2007 +0000
+
+    v0.2 release
+
+commit 8de8b1a142c47e5f6cc1b594241fea7a9923e5f7
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 17:48:22 2007 +0000
+
+    Enrollment GUI
+    
+    Also moved pixbuf handling into main and added a "refresh" mechanism
+    which is currently called when the list of discovered prints has been
+    updated.
+
+commit 4898a3b7facd5435315c75a30e82cbb53a272cf2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 12:50:52 2007 +0000
+
+    Improved tab behaviour
+    
+    Clear and activate all tabs when device changes.
+    Removes the need for a special exit handler.
+    
+    Add a refresh handler to let a screen know when the tab has been changed,
+    incase it's previous data since activate_dev is stale.
+
+commit 2b6867e25a033ae939ddfb929aaab28937fe07ba
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 12:36:43 2007 +0000
+
+    Beginnings of enroll screen
+    
+    Moved fingerstr() into main as a shared function.
+    Discover prints in main during device change, as these are now used by
+    multiple screens.
+
+commit 78b001a894d637945b9d2f5a7ef529ac465f38f2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 00:59:38 2007 +0000
+
+    Clear tabs during startup
+    
+    Fixes a crasher where you could click the "Save" button in the verify
+    tab before scanning an image.
+
+commit 3c657d49e408b4d90c0cd3dfd21d842838ba866f
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 00:32:06 2007 +0000
+
+    verify: Update widget names
+    
+    Rename from mwin to vwin
+
+commit 6d31d7c6ca7ff2a3675bc5dc3d80d76abf74a701
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 00:30:00 2007 +0000
+
+    Improve resizing behaviour
+
+commit 081be409116149bd17e30df9eb92fa93d45c173f
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 18 00:19:05 2007 +0000
+
+    Switch to tabbed interface
+    
+    No functional changes, just some rearchitecting and cleanups.
+
+commit d0afd7386d3ccdc2b9882894b4eeac2ea1951f38
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 22:32:44 2007 +0000
+
+    Add image save functionality
+    
+    Also rearranges the UI a bit
+
+commit 9e6ed72b96e75fb477bb517c94fb3fe40fd49592
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 13:44:51 2007 +0000
+
+    v0.1 release
+
+commit a801c469ad8b3c14a8cfc7a6d7cc73e7a4ba5906
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 13:21:34 2007 +0000
+
+    Add functionality to view binarized image
+
+commit db8c020c34bb8b0811cc2d17b29fe776643800ae
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 16 14:26:52 2007 +0000
+
+    Don't show image for non-imaging devices.
+
+commit 0fb3f903f11ae6965d92131f0da1a1243bbad35c
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 15 23:51:47 2007 +0000
+
+    Initial commit

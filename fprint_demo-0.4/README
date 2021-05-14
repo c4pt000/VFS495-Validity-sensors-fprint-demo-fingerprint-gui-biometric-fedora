@@ -1,0 +1,15 @@
+fprint_demo
+===========
+
+http://www.reactivated.net/fprint/wiki/Fprint_demo
+
+Software to demonstrate libfprint's capabilities.
+Currently in early stages. Might eat your cat.
+
+Written in C. Requires libfprint and GTK+.
+
+Licensed under the GPL version 2 (see COPYING).
+
+TODO:
+Add bare image capture functionality
+

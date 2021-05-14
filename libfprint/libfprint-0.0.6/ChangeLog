@@ -1,0 +1,873 @@
+commit b72ba67aa8cee9e3945f028478d0ebd1c4c111ca
+Author: Daniel Drake <dsd@gentoo.org>
+Date:   Thu Mar 20 13:57:21 2008 +0000
+
+    v0.0.6 release
+
+commit a661137527b3c98aebf4598232c4ed6c803381db
+Author: Daniel Drake <dsd@gentoo.org>
+Date:   Thu Mar 20 13:39:00 2008 +0000
+
+    uru4000: search for encryption byte
+    
+    Backport of a11ac7d8f8e1dc1f04b4721247ef24ca4cd8f7d6 for covadis device
+    support:
+    
+    New DigitalPersona devices have a new firmware. We now use a search
+    scheme to find the encryption byte, by examining known locations
+    in the firmware until we find something that we recognise.
+
+commit 6f456f399d99c49c48d28441d471a55c1d94081a
+Author: Gustavo Chain <g@0xff.cl>
+Date:   Thu Dec 27 01:09:32 2007 +0000
+
+    Add Secugen FDU2000 driver
+    
+    [dsd@gentoo.org: some trivial changes:
+    fixed some warnings
+    fixed fp_img memory leak on error
+    renamed endpoint constants (calling a bulk endpoint 'ctrl' is confusing,
+    as a control endpoint is something different)
+    ]
+
+commit 659d8346beb4a0506d5c2f20c918a57804b4f591
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Dec 27 00:46:11 2007 +0000
+
+    Compiler flags update
+    
+    Dropped -Wextra as it is not that useful.
+    Set compiler flags to be more like the kernel's.
+    Set std=gnu99
+    Fixed some warnings.
+
+commit c8aa33da0bd2467594a92eeda641fe7749b9f33d
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Dec 7 15:03:27 2007 +0000
+
+    v0.0.5 release
+
+commit 642010643d04a5e43eac6fcb3d41b18003cde132
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 16 17:25:41 2007 +0000
+
+    uru4000: Add support for Microsoft Fingerprint Reader v2
+    
+    After lot 713, Microsoft fingerprint readers changed. The new version
+    comes with a new USB product ID and a challenge-response authentication
+    scheme where the device challenges the authenticity of the driver.
+    
+    An independent third party produced documentation on the computations
+    needed to convert a challenge into the correct response, and I then used
+    this documentation to produce a clean-room reimplementation of the
+    authentication scheme.
+
+commit 474da5f2c779a1c4a1309fd9f05972372ced7568
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Dec 7 14:59:38 2007 +0000
+
+    Add a disclaimer for the university
+
+commit c1f8581ec93d4e7d32f3880524cb1d775020d5b9
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Dec 1 13:00:33 2007 +0000
+
+    Cleanup discover_device in examples
+    
+    Andrei Tchijov pointed out that the discover_device() function is written
+    in a strange way.
+
+commit 3479dee0e4f6e0a2e779289378cb90c7a7710f88
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 26 23:28:14 2007 +0000
+
+    aeslib: image assembly
+    
+    All 3 authentec drivers now use a shared image assembly function.
+
+commit e228f2c7dab4960ed008d2170f07b6a53fa57eb3
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Nov 20 12:23:27 2007 +0000
+
+    Introduce shared functions for authentec drivers
+    
+    Currently provides register writing functionality only, more common ground
+    will be moved here soon.
+
+commit 8e0e8e43867dbd214149edeb83ad5688b5d9e8f2
+Author: Anthony Bretaudeau <wxcover@gmail.com>
+Date:   Mon Nov 26 17:51:31 2007 +0000
+
+    aes1610: imaging improvements
+    
+    bz threshold is now 10 (instead of 15). I think it is ok for the moment.
+    If we manage to get higher image quality in the future, we'll change that.
+    
+    max_frame is set to 350. 150 was too low => incomplete fingerprints
+    
+    the driver was designed to stop the acquisition as soon as it gets a blank
+    frame (=> incomplete fingerprints). Now it waits to have at least 50 blank
+    frames before stopping.
+
+commit 4e2be56db7f977672fbf7a4cb5d260cbdc55a58c
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 22 17:59:33 2007 +0000
+
+    v0.0.4 release
+
+commit 1ee6210be320c471e448f7e5aa772e63b7ae85e8
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 22 17:25:27 2007 +0000
+
+    Hookup AES1610 driver
+    
+    An oversight pointed out by Michele B.
+
+commit 69700855e27c655262de0d908a0447100238c5e4
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Nov 20 22:13:18 2007 +0000
+
+    Implement identification for imaging devices
+
+commit 3f70d6f79410f483a9b34945dfe5b1cf5bfc23f6
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Nov 20 21:52:10 2007 +0000
+
+    Identification infrastructure
+
+commit dbcd293ab31cabd44b6c840d6701d4f79a9aeee2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 19 18:41:03 2007 +0000
+
+    v0.0.3 release
+
+commit c5a550e42c716be0fe3aa61e135fd62b1e861ed7
+Author: Anthony Bretaudeau <wxcover@users.sourceforge.net>
+Date:   Mon Nov 19 18:39:03 2007 +0000
+
+    Add Authentec AES1610 driver
+    
+    This is an active capacitance swipe-type device similar to but smaller
+    than the AES2501.
+    
+    Image processing performance is good but matching performance is not so
+    good. The bozorth3 matcher needs tweaking in order to better cope with
+    small sets of minutiae.
+    
+    With a lowered threshold, matching performance is good enough for now.
+
+commit 6245acea848392861c2cd175d0292ef6b4f6638e
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 19 18:29:26 2007 +0000
+
+    Add API to delete enroll data
+
+commit 887e0e6acf8767c1f3bf571fc1ef8f5223c4c33b
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 19 00:27:27 2007 +0000
+
+    Add API to access minutiae
+
+commit fa742a2142ec969e9392823d6113f046c336cfb8
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 23:47:06 2007 +0000
+
+    Use G_N_ELEMENTS macro
+
+commit af945b2738ee3f8a50e8aafcce91a8f1d356b512
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 12:48:26 2007 +0000
+
+    Version 0.0.2
+
+commit fa24d51304316f8d9901368164a133232834ead4
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 13:15:25 2007 +0000
+
+    Fix variable get_img_width/height return value
+    
+    Fix the functions to conform to the documentation: -1 means non-imaging
+    device, 0 means variable. Internally, -1 is used to represent variable
+    height (to be noticably different from the memset-imposed default of zero).
+
+commit ba24c0884a6c193854104bc234d981928ca33c32
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Nov 17 12:46:00 2007 +0000
+
+    Rework some image handling; add public binarization API
+    
+    I want to offer the ability for an application to view a binarized
+    version of a scanned print. This lead onto a few changes:
+    
+     1. Store minutiae and binarized data inside fp_img
+     2. Move resize code to the capture path, it previously happened much
+        later.
+     3. Add fp_img_binarize() to return a new image in binarized form.
+     4. Add a BINARIZED_FORM flag to prevent an image being binarized again.
+    
+    In future, it would be nice to be able to binarize without detecting
+    minutiae, but this involves some work on the NBIS interaction.
+
+commit 72c304999a07af03f0bad9485ebee6f9d0fcb520
+Author: Jan-Michael Brummer <buzz2@gmx.de>
+Date:   Fri Nov 16 18:15:43 2007 +0000
+
+    Add UPEK TouchChip driver
+    
+    The UPEK TouchChip is an active capacitance imaging device with a
+    press-type sensor. It also has image storage capabilities which will
+    hopefully be accessible through libfprint in the near future.
+    
+    This device can be found in the Samsung P35 laptop.
+
+commit 791eeab85991f513d437809b83863f400105db13
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 16 15:44:09 2007 +0000
+
+    aes2501: restore default bozorth3 match threshold
+    
+    With the multiple register writing code, the image quality is much
+    better. It's trivially easy to get a match score of 100, and 200 is
+    possible with a little effort. Remove the lowered match threshold.
+
+commit be0e9debd90592525cc135a22fc92e08be4b0274
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 16 15:35:48 2007 +0000
+
+    aes2501: write multiple registers simultaneously
+    
+    Instead of writing each register in a separate USB transaction, we now
+    write up to 16 at once.
+    
+    This drastically improves scan image quality due to reducing the amount of
+    time needed per iteration of the sampling loop (sending 1 USB transaction
+    per iteration instead of 7).
+
+commit bfc55c4f0f4ff75b52c9d9c2d7b2fffb01c5dc8e
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 16 12:49:29 2007 +0000
+
+    Use older ImageMagick API
+    
+    Debian ship an ImageMagick that is more than 2 years old. Switch to using
+    older APIs so that we have compatibility all-round.
+
+commit 3fa3c0daf7f909187870f4f8136a9e830d18bdfb
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 16 13:14:30 2007 +0000
+
+    Initialize enrolled image pointer to NULL
+    
+    Currently this is a dangling pointer if the image capture fails, and then
+    we try to standardize an invalid pointer --> crash
+
+commit 069b4a30ebdac8723a1f7a3e2d880924a6be9552
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 15 17:23:36 2007 +0000
+
+    Doc and build updates
+    
+    Add ChangeLog generation makefile target.
+    Group all copyright notices in AUTHORS.
+    Update some doxygen comments, and allow fp_dev_close(NULL)
+
+commit 06e8040956013fcba3c36d58356fb281b3888a58
+Author: Vasily Khoruzhick <anarsoul@gmail.com>
+Date:   Thu Nov 15 16:09:38 2007 +0000
+
+    aes2501: Detect reversed scans
+    
+    aes2501 can be mounted 180 degrees rotated (this happens on most part of
+    laptops), so driver should detect whether sensor is 180degrees rotated
+    and assemble frames in right order.
+
+commit 6866ea626e22a861ade880c9eb1c1e2fd48e3510
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 15 09:56:14 2007 +0000
+
+    v0.0.1 release
+
+commit 2ad14c021299fd362072a1fc36e634fc491df255
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Nov 7 17:49:10 2007 +0000
+
+    Add AES2501 driver
+    
+    This driver works quite nicely. Seems a little too sensitive though (too
+    much black in the standardized image, not enough ridge gap definition).
+    
+    Processing results are quite good, but you need a good enrollment image
+    (i.e. long!). It's best to get such images by pressing harder than you
+    might think necessary and swiping slowly.
+
+commit 5485f8031d97f26a88ae51e83872c6c79edafc3e
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Nov 13 20:46:15 2007 +0000
+
+    Return images through enroll/verify path
+    
+    Added new API functions to obtain images, even when scans are bad, perhaps
+    a useful way to show the user just how good/bad the scan actually was.
+    
+    Drivers and examples updated accordingly.
+
+commit a86cd51959cdb6e34ba0ddee4eed07880ac0fa2c
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Nov 13 14:32:31 2007 +0000
+
+    Clean up on exit, and convert to singly-linked-lists
+    
+    This adds fp_exit() to the public API, intended to be called while the
+    driving app is shutting down.
+
+commit a76f55db0d668278e1a8108a203e685b65400458
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Nov 12 23:32:17 2007 +0000
+
+    upekts relicensing
+    
+    Pavel Machek and Timo Hoenig agreed to relicense their work. Thanks guys,
+    I look forward to working together.
+
+commit 71e4bb39ec214883bc707b5ba2b95423f1fd05b6
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 9 14:57:42 2007 +0000
+
+    Allow drivers to specify custom bz3 match threshold
+    
+    aes4000 detects fewer minutiae and hence returns lower scores.
+
+commit e3451158e9e1d0d2cb1f81197a8e392ac4294ec0
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 8 17:04:45 2007 +0000
+
+    Custom image resizing
+    
+    mindtct appears to completely ignore the pixels-per-mm input parameter
+    (ippmm). When processing AES4000 images, the binarized image is
+    completely mangled and a lot of ridge information is lost.
+    
+    Resizing the AES4000's small images results in a huge imaging performance
+    gain.
+    
+    We use imagemagick for the resizing, as it's resizing code resamples the
+    image too (smoothing it out), which further improves performance.
+
+commit a73cbc10fb2ab3ded4551707b772a4c8b88ec8c4
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 9 13:47:32 2007 +0000
+
+    aes4000: image quality improvements
+    
+    The windows driver takes one sample at the previous register settings
+    and then changes some registers before resamping (and getting much better
+    images). The exact changes that it makes seem to vary, perhaps based on
+    the histogram.
+    
+    Anyway, this is an approximation of the settings used for the 2nd sample
+    which should help matching results.
+
+commit b9238e8b8a308f15fc0cadd2217ed105aab0cdde
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 8 13:56:21 2007 +0000
+
+    Support images with variable dimensions
+    
+    For example, AES2501 returns images that vary in height.
+
+commit e1a25eeb672fdc0de2f1bb019b234587138b37f1
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 8 13:41:52 2007 +0000
+
+    Doc update
+
+commit 8e7afef736711d81a4f33b17800b8e132ac251d7
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 4 21:12:48 2007 +0000
+
+    uru4000: add Digital Persona U.are.U 4000 support
+    
+    My UareU4000 device isn't working properly -- only seeing an all-white
+    image and no finger-on detection, however I think this code should work
+    for working devices.
+
+commit f498fcd1eac49b2d5cee6285d6e16e0cd1498f7c
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 4 19:10:23 2007 +0000
+
+    Fix img_capture_continuous build
+    
+    Also enable it in the default development build
+
+commit f733ddcc3b3748a73a3c63865be681af4fc5ed12
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 4 19:01:15 2007 +0000
+
+    uru4000: retry scanner powerup 3 times
+    
+    When we include the await_finger_off procedure (i.e. set mode 12), the
+    current power-up code is unreliable - no 56aa interrupt arrives sometimes.
+    Comparing the F0 data and hwstat at this point between a working and a
+    non-working run yields no differences.
+    
+    Work around this issue by retrying power-on 3 times.
+
+commit cbe1111e4e68702ac3d1b23c4a65b81052f0656c
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Nov 4 18:57:44 2007 +0000
+
+    uru4000: handle images without headers
+    
+    While testing the new code on my MS keyboard, I found some strange
+    conditions where occasionally, the device will stop providing images
+    headers until it is replugged.
+    
+    Detect and work around this when it happens.
+
+commit 2e6c3b940cf30705e7a2aa4bbb5c1c191fa94fdc
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Nov 1 23:11:29 2007 +0000
+
+    API documentation
+
+commit 7e6f25908bbd160f7f2a44618f29bbaded748bf9
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Nov 2 17:04:19 2007 +0000
+
+    remove imgdev abstraction from public API
+    
+    Make it easier for application developers, don't have to care about this
+    level of abstraction which we're intending to make superfluous to them.
+
+commit fc77786e46f8e7e8912426e13e858eb041b8ecc2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Oct 31 22:42:09 2007 +0000
+
+    uru4000: interrupt handling fixes
+    
+    This should improve driver stability somewhat. Powerup problems seem to
+    happen when we receive 3 unrelated interrupts while waiting for the
+    power-on interrupt, so let's assume that the device can only buffer 3
+    interrupts, and when the buffer is full, it discards new ones.
+    
+    When we detect a possible buffer overflow, ask the caller to retry the
+    operation.
+    
+    Also, saw the interrupt of death a few times, so add in a warning when
+    this happens. Haven't seen it since handling interrupt overflows though.
+
+commit 07a81b07becb597d919c706e9894c31b2e95432f
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Oct 31 21:51:37 2007 +0000
+
+    upekts: initialise and deinitialise device during verify/capture
+    
+    Otherwise it heats up, and verify retries fail because we didn't end the
+    session.
+
+commit fc0a97a801377fb5d9666d81a18b2c93c4c37f61
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Oct 31 13:18:30 2007 +0000
+
+    Build system tweaks
+    
+    Install fprint.h header
+    Include headers in distribution
+    distcheck fixes
+    Include and install pkgconfig file
+
+commit 447b1f01b3163bebf640f2f44d09a7fbf0c4e79c
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Oct 31 13:12:04 2007 +0000
+
+    Print discovery
+    
+    Add concept of "discovered prints" and flesh out the API. A discovered print
+    was found based on file name but has not been checked for file integrity,
+    and of course there is no guarantee that it is usable when you try to
+    use it later (might have been deleted, etc).
+    
+    The .fprint directory structure was changed - instead of using mnemonics
+    like "rind" we use their numeric value in the fp_finger enum as the filename.
+
+commit b96aade69ca93c28ed20bdac8be432d4feb0f9fd
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 30 22:24:31 2007 +0000
+
+    Flesh out driver_id/devtype API
+    
+    Add accessor functions to the various structures
+
+commit cc3e976042e49587ecca87a7fdb3d6dbdcf76d0e
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 30 22:15:45 2007 +0000
+
+    Add 'discover' hook for drivers
+    
+    Drivers can now offer a discover function, and are expected to offer the
+    device devtype during discovery, without accessing the USB device. Hmm.
+    Maybe we'll have to change that later...
+
+commit f0ef386f43d944430654f3ef486464db5717b4c9
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 29 23:37:28 2007 +0000
+
+    More NBIS cleanups
+
+commit 6f633cc771c5290593880c79304234eafb5e8e83
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 29 23:06:06 2007 +0000
+
+    Use glib's byte order functions
+
+commit 294f9ad44730400800f9de0cd213a7050f6ef2a5
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Oct 28 22:02:04 2007 +0000
+
+    Improve print_data structure and on-disk format
+    
+    Drivers now have an ID number. These will be assigned by me and documented
+    on the wiki. 0 cannot be used.
+    
+    Drivers now define a devtype for each device they initialise. This is to
+    cope with the situation where a driver can support varying devices where
+    their print data is incompatible (i.e. image scaling is totally changed).
+    This doesn't apply to any existing supported devices.
+    
+    Print data no longer includes driver name, and includes driver ID instead.
+    
+    Paths to saved print data now include driver ID and devtype, and no longer
+    include driver name.
+    
+    APIs exposed for converting a print_data into a blob which can then
+    be loaded back again later. Useful for systems who don't want to use
+    my simple storage system (which is only aimed at a single user).
+    
+    File format is now defined and will be documented on the wiki. The header
+    is larger as we can no longer rely on directory paths in all scenarios.
+    
+    Print data compat check now checks devtype and driver ID.
+
+commit 4e5cfdf92aa305a5d8ed58fb650ccdad028742ac
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Oct 28 15:45:28 2007 +0000
+
+    NBIS cleanup
+    
+    Part 1 of many. Remove some unused/pointless code, and made some code
+    static.
+
+commit 6b8d17ef2654ad7f42fa9941074d132fb4d6e324
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Oct 28 00:21:49 2007 +0100
+
+    Add bozorth3 from NBIS; implement verify for image devices
+    
+    uru4000 works splendiferously (YAY!)
+    aes4000 is going to need some work though :(
+
+commit 41b25f28a4dd980b88fef2e9ff9f243390793639
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 22:48:09 2007 +0100
+
+    Add mindtct from NBIS; implement enroll for image devices
+    
+    mindtct is mostly as-is for now, with just a couple of bits ripped out.
+
+commit be67f85caa1c65c4c55d4e969d757e7f2790bd7e
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 18:12:16 2007 +0100
+
+    Add Authentec AES4000 driver
+
+commit 3bbb7b8b51829acd5b8efaf54d60338aec0c4717
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 18:10:06 2007 +0100
+
+    Internal image allocation API changes
+    
+    Creating by dimensions is likely not useful now that we can infer image
+    size from a device in question.
+
+commit 351ccb4ab7f60ce2225f10bab13fd0862c1d17de
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 15:17:19 2007 +0100
+
+    Add XV-based img_capture_continuous example
+
+commit da071ff8a2a20984b5f3ea5c355c8a7063f51860
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 15:16:54 2007 +0100
+
+    Add API for freeing images
+
+commit c2a83ec948ffb5604e30cb9cba4f6b71b5ad2b43
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 14:45:14 2007 +0100
+
+    Improved image dimension handling
+    
+    Drivers now specify the size of the image they provide, and theres an API
+    so that you can get the size of an image before you capture it.
+
+commit 9960a7ff3450fe6df892f794904c8fa2ac398115
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 12:07:11 2007 +0100
+
+    Image standardization
+    
+    Initially supports flipping and colour inversion
+
+commit 0ddfef6c21e9944e1ed34e4cbb895e105b82359d
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 00:10:32 2007 +0100
+
+    Add uru4000 driver
+
+commit f367ae8f4be9dc504d5526d4e74fab497f9f1f59
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 00:09:46 2007 +0100
+
+    Zero out fprint_data fields on allocation
+
+commit f3a838e856423af802de1d777a19163843cdf635
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 27 00:06:53 2007 +0100
+
+    Initial implementation for image device access and capture
+    
+    Also added new example: img_capture
+
+commit 0aac3706d707b26f478656282d2d7dce47e3adbf
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Oct 25 15:35:10 2007 +0100
+
+    upekts: release interface on error condition and normal exit
+
+commit 0ac74ef649802000da82bb1bddf8c1637c515de6
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Thu Oct 25 15:00:30 2007 +0100
+
+    Pass driver_data from ID table to driver init function
+
+commit 2709c6dc8c2429c3202b88b709593376d69392e5
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 23 23:24:21 2007 +0100
+
+    Basic image driver foundations
+    
+    The basic model is that image drivers declare a fp_img_driver structure
+    rather than a fp_driver struct. fp_img_driver will contain primitive imaging
+    operations such as 'scan finger and return image'. The imgdev layer will
+    generically implement the primitive fp_driver operations, and the imgdev
+    layer will fix up the enroll/verify/etc pointers at driver registration
+    time.
+    
+    Removed const from all fp_driver declarations, as these are now modified
+    dynamically in the case of imaging drivers.
+
+commit c97f4bb1a721c7cee3acd8dec081a3f0fb86a5bb
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 16 14:35:33 2007 +0100
+
+    Fix verify debug messages
+    
+    Teach it about the various error conditions.
+
+commit 801fcfc07ce3cee36ce8c16e8e4fa26d22ae8db3
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 16 14:34:47 2007 +0100
+
+    upekts: fix memory corruption
+    
+    Found by valgrind
+
+commit 680142f268ad8bdfd0cbcbd6654f2e0dc2d20187
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 16 14:23:30 2007 +0100
+
+    storage: add save/load functionality
+    
+    Prints can now be saved to disk (but you currently must classify which
+    finger they are) and you can load them later.
+    
+    Added 2 simple example programs to demonstrate this.
+
+commit 3b8f8c195cc49532669cce859be7969ff5813611
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Tue Oct 16 13:41:23 2007 +0100
+
+    upekts: support large messages
+    
+    Add support for messages with a length greater than 255.
+    Also picked out a few more retry codes.
+
+commit 10bb96a0dfd9dfb50e870499661f2adf8050f11f
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 15 22:16:22 2007 +0100
+
+    Rename verify to verify_live
+    
+    ...to make way for an enroll example which stores on disk, and
+    a verify example that loads from disk.
+
+commit bf9ce44f43c013a3822fe63a5214faf946a2ce8b
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 15 22:09:46 2007 +0100
+
+    upekts: verify implementation
+    
+    We can now verify live fingerprints using the verify example.
+    Error handling during verification needs to be improved.
+
+commit f59112d57cf008969d074ff4ffa5f31c5d29a099
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 15 22:07:22 2007 +0100
+
+    Unhide fprint_data buffer from drivers
+    
+    May as well keep things out in the open.
+
+commit 68bdfc7868f8a0467da58cba4796a44569f806b9
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Oct 14 00:58:45 2007 +0100
+
+    Verification infrastructure
+    
+    Similar model to enrollment.
+
+commit 39271b4fe50b5f3ceb880e47c951f906b9bc8ff2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Oct 14 00:45:49 2007 +0100
+
+    Enrollment: improved error reporting
+    
+    Convert enrollment function to return a signed integer, which is negative
+    on error or corresponds into fp_enroll_result otherwise.
+    Now we can treat a 'FAIL' condition differently from an actual error: fail
+    means that enrollment didn't complete because the data was nonsense or
+    whatever (e.g. scanned a different finger for each stage?).
+    
+    Updated upekts accordingly.
+
+commit ab5b1ca8e9815599a5e5034736db7bcabebc9101
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 13 16:24:20 2007 +0100
+
+    upekts: communication handling and enrollment implementation
+    
+    This completes an enrollment implementation for the upekts driver.
+    It's based on code from libthinkfinger, but as there seemed to be many
+    unknown details there, I spent some time analysing the bus messages in
+    more detail and have effectively rewritten almost all of the borrowed code.
+    
+    Note that libthinkfinger is GPL licensed, so that reflects on this code too.
+    At release time I will ask them if they are OK for me to relicense it.
+
+commit 299514431073828585c10b27af34a43936014703
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sat Oct 13 15:52:50 2007 +0100
+
+    Build system tweaks
+    
+    Add configure-time controls for logging
+    Set some default compile-time warnings
+
+commit 50e2de0730c5d93dd1ad5f0f07e010ee1d92ad01
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Oct 12 15:27:23 2007 +0100
+
+    Enrollment tweaks
+    
+    upekts will need to know when the first enrollment stage is attempted for
+    the first time, so add an __enroll_stage counter which actually indicates
+    the next stage to enroll. -1 is a special value and it means 0 is next *and*
+    it is the initial attemt.
+    
+    Added more debug output to the enroll handler.
+    Added new fp_enroll_status codes for too short or uncentered scans.
+    
+    Changed the print_data allocator to consider the device rather than the
+    driver, this feels more natural. Added missing return value.
+    
+    Make fp_enroll_status codes start at 1. 0 can now be used as a
+    special/temporary value by the drivers. Also check that we aren't exceeding
+    the number of enroll stages.
+    
+    Also add a missing exit() call to the verify example and update for the
+    above.
+
+commit e6624fe5086dc3d86a3947e396ab7c52c0cdddb8
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Fri Oct 12 15:16:51 2007 +0100
+
+    Add 16 bit endianness functions
+
+commit ec91736ac4fb77e5d852959820d0070d1b4fc56f
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Wed Oct 10 15:51:50 2007 +0100
+
+    Add logging infrastructure
+    
+    Also added some debug/error messages to existing code. For now debugging is
+    always on, this will be made optional later.
+
+commit 016ff33533bf4930e05ed5c818b83a5610e6b219
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 19:53:50 2007 +0100
+
+    Enrolment infrastructure
+
+commit b071f3cdb928117401d173aa5ea0bb9555295618
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 18:24:29 2007 +0100
+
+    Initial fingerprint data representation ideas
+
+commit 59b73af909162c5fa7d57d3c14f66508a7589873
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 17:37:58 2007 +0100
+
+    Documentation update
+
+commit f81aa47a19a8ab7c1e53d9b483ead064fdd85884
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 17:15:21 2007 +0100
+
+    Add 'verify' example skeleton
+    
+    This will become an example program to enroll a fingerprint and then
+    verify a finger against it.
+
+commit 2c06a4ebfaed93505bb7daa7d9a49bb394bdbfb4
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 17:05:58 2007 +0100
+
+    Expose driver info to library users
+
+commit 711bb1151b161f3696d97b78de975221ccee82cd
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 17:01:08 2007 +0100
+
+    open/close device functions
+
+commit 7d31cb4d456185a951fc98276b1244039317a0a2
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 16:55:50 2007 +0100
+
+    Basic device discovery infrastructure
+
+commit 046bdc0bdab54d1890c5a5445b6ca711e4a13f19
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Mon Oct 8 16:46:42 2007 +0100
+
+    Initial driver registration mechanism
+    
+    Also added the basis of the upekts driver, which is the first I'll
+    implement.
+
+commit 7d3612d9f6ebc5ecbdc400acbb97333c7bb402c9
+Author: Daniel Drake <dsd@cs.manchester.ac.uk>
+Date:   Sun Oct 7 23:20:12 2007 +0100
+
+    Create repo structure

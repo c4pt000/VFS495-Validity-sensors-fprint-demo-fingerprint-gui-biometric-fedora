@@ -1,0 +1,34 @@
+commit d8349b68216108fb970414c8984a4e99b095a750
+Author: Daniel Drake <dsd@gentoo.org>
+Date:   Mon Nov 19 19:15:02 2007 +0000
+
+    v0.2 release
+
+commit a798ab6ac51d3e47aef658709e44d085a63d8ffe
+Author: Vasily Khoruzhick <anarsoul@gmail.com>
+Date:   Mon Nov 19 19:11:09 2007 +0000
+
+    Add enrollment application
+
+commit 74f7fc1439a9b1dff83f804fc2a62ca2ecd64e59
+Author: Daniel Drake <dsd@gentoo.org>
+Date:   Mon Nov 19 19:05:46 2007 +0000
+
+    Don't try to serve sessions from remote hosts
+    
+    Avoids a remote box asking you to scan your fingerprint when you login
+    over SSH.
+    
+    Based on a change made to pam_thinkfinger.
+
+commit adb0ae4947091846bc2771c7a32e4c7ed93b5d33
+Author: Daniel Drake <dsd@thief.(none)>
+Date:   Thu Nov 15 10:41:59 2007 +0000
+
+    v0.1 release
+
+commit ae1f7800c5fbdbfb3a2945c28d984a2593cabd17
+Author: Daniel Drake <dsd@gentoo.org>
+Date:   Wed Oct 31 20:03:34 2007 +0000
+
+    Initial commit

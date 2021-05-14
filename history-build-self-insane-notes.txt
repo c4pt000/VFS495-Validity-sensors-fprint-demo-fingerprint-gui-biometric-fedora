@@ -1,0 +1,183 @@
+ cp -rf /home/c4pt/Downloads/vfs495.tar .
+ 2024  tar -xvf vfs495.tar 
+ 2025  cd vfs495/
+ 2026  ls
+ 2027  rpm -Uvh Validity-Sensor-Setup-4.5-118.00.x86_64.rpm 
+ 2028  yum install lsb -y
+ 2029  rpm -Uvh Validity-Sensor-Setup-4.5-118.00.x86_64.rpm 
+ 2030  systemctl enable virtcsFPServiceDaemon
+ 2031  ls
+ 2032  fprintd-enroll 
+ 2033  ls
+ 2034  ./vcsFPServiceDaemon start
+ 2035  fprintd-enroll 
+ 2036  ls
+ 2037  yum provides *\libcryptopp.so*
+ 2038  yum install cryptopp-devel
+ 2039  ls
+ 2040  mkdir libfprint
+ 2041  cd libfprint/
+ 2042  rpm2cpio ../libfprint-0.0.6-18.20.1.src.rpm | cpio -i --make-directories
+ 2043  cp ../libfprint-validity.patch .
+ 2044  ls
+ 2045  tar -xvf libfprint-0.0.6.tar.bz2 
+ 2046  cd libfprint-0.0.6/
+ 2047  patch -p1 < ../libfprint-validity.patch
+ 2048  ./configure --prefix=/usr
+ 2049  yum install libusb-devel -y
+ 2050  ./configure --prefix=/usr
+ 2051  yum install imagemagick-devel -y
+ 2052  yum install ImageMagick-devel -y
+ 2053  ./configure --prefix=/usr
+ 2054  make -j24
+ 2055  yum install checkinstall
+ 2056  yum provides *\checkinstall
+ 2057  ls
+ 2058  find . -name '*.spec'
+ 2059  make -j24
+ 2060  yum provides *\*checkinstall*
+ 2061  ls
+ 2062  ls *.deb
+ 2063  curl -O https://raw.githubusercontent.com/rpmsphere/x86_64/master/c/checkinstall-1.6.2-1.x86_64.rpm
+ 2064  rpm -Uvh checkinstall-1.6.2-1.x86_64.rpm 
+ 2065  checkinstall -install=no make -j24 install
+ 2066  find . -name 'libfprint.a'
+ 2067  cp -rf libfprint/.libs/libfprint.a /usr/lib64/
+ 2068  checkinstall -install=no make -j24 install
+ 2069  make -j24 install
+ 2070  checkinstall -install=no make -j24 install
+ 2071  yum provides *\libfprint.so.0
+ 2072  checkinstall -install=no make -j24 install
+ 2073  alien --to-rpm --scripts libfprint_0.0.6-1_i386.deb 
+ 2074  yum install alien -y
+ 2075  alien --to-rpm --scripts libfprint_0.0.6-1_i386.deb 
+ 2076  rpm -Uvh libfprint-0.0.6-2.i386.rpm 
+ 2077  checkinstall -install=no make -j24 install
+ 2078  alien --scripts --to-rpm libfprint_0.0.6-1_amd64.deb 
+ 2079  rpm -Uvh libfprint-0.0.6-2.x86_64.rpm 
+ 2080  rpm -qa | grep libf
+ 2081  rpm -Uvh --force libfprint-0.0.6-2.x86_64.rpm 
+ 2082  rpm -Uvh --force --nodeps libfprint-0.0.6-2.x86_64.rpm 
+ 2083  mv libfprint*.rpm ../
+ 2084  cd ..
+ 2085  ls
+ 2086  cd libfprint-0.0.6/
+ 2087  ls
+ 2088  rm -rf *.deb
+ 2089  ls
+ 2090  cd ..
+ 2091  ls
+ 2092  cd ..
+ 2093  ls
+ 2094  tar -xvf fprint_demo-0.4.tar.bz2 
+ 2095  cp -rf libfprint/*.rpm .
+ 2096  ls
+ 2097  cd fprint_demo-0.4/
+ 2098  ls
+ 2099  ./configure 
+ 2100  make -j24
+ 2101  checkinstall -install=no make -j24 install
+ 2102  alien --scripts --to-rpm fprint-demo_0.4-1_amd64.deb 
+ 2103  cp -rf fprint-demo-0.4-2.x86_64.rpm ../
+ 2104  cd ../
+ 2105  ls
+ 2106  rpm -Uvh --force fprint-demo-0.4-2.x86_64.rpm 
+ 2107  rpm -Uvh --force --nodeps fprint-demo-0.4-2.x86_64.rpm 
+ 2108  ls
+ 2109  fprint_demo 
+ 2110  ls
+ 2111  mkdir required
+ 2112  cd required/
+ 2113  cp -rf ../*.rpm .
+ 2114  ls
+ 2115  cp -rf ../vcsFPServiceDaemon .
+ 2116  ./vcsFPServiceDaemon stop
+ 2117  systemctl enable vcsFPServiceDaemon
+ 2118  systemctl start vcsFPServiceDaemon
+ 2119  systemctl vcsFPServiceDaemon start 
+ 2120  journalctl xe
+ 2121  journalctl -xe
+ 2122  fprintd-enroll 
+ 2123  ls
+ 2124  ./vcsFPServiceDaemon start
+ 2125  fprintd-enroll 
+ 2126  yum provides *\pam_fprint_enroll
+ 2127  cd ..
+ 2128  ls
+ 2129  tar -xvf pam_fprint-0.2.tar.bz2 
+ 2130  cd pam_fprint-0.2/
+ 2131  ./configure --prefix=/usr
+ 2132  yum install libpam-devel
+ 2133  yum install pam-devel
+ 2134  ./configure --prefix=/usr
+ 2135  make -j24
+ 2136  checkinstall -install=no make install
+ 2137  mv /root/rpmbuild/RPMS/x86_64/pam_fprint-0.2-1.x86_64.rpm ../required/
+ 2138  cd ../required/
+ 2139  rpm -Uvh --force pam_fprint-0.2-1.x86_64.rpm 
+ 2140  rpm -Uvh --force --nodeps  pam_fprint-0.2-1.x86_64.rpm 
+ 2141  nano /etc/pam.d/common-auth
+ 2142  nano common-auth
+ 2143  nano pam-recovery.txt
+ 2144  ls
+ 2145  echo '/etc/pam.d/common-auth' >> common_auth-install.txt
+ 2146  fprint_demo 
+ 2147  ls -l /usr/lib64/libcrypto.so.1.1.1k 
+ 2148  cp -rf /usr/lib64/libcrypto.so.1.1.1k /usr/lib64/libcrypto.so.0.9.8
+ 2149  ldconfig 
+ 2150  fprint_demo 
+ 2151  cp -rf /usr/lib64/libssl.so.1.1.1k /usr/lib64/libssl.so.0.9.8
+ 2152  ldconfig 
+ 2153  fprint_demo 
+ 2154  ls
+ 2155  ./vcsFPServiceDaemon stop
+ 2156  ./vcsFPServiceDaemon start
+ 2157  fprint_demo 
+ 2158  yum provides *\xmessage
+ 2159  yum install xorg-x11-apps
+ 2160  fprint_demo 
+ 2161  kill %1
+ 2162  fprint_demo 
+ 2163  kill %1
+ 2164  kill %2
+ 2165  ps ax | grep fprint
+ 2166  ./vcsFPServiceDaemon stop
+ 2167  ./vcsFPServiceDaemon start
+ 2168  fprint_demo 
+ 2169  yum provides *\/usr/bin/xmessage
+ 2170  yum install xmessage -y
+ 2171  fprint_demo 
+ 2172  ./vcsFPServiceDaemon stop
+ 2173  ./vcsFPServiceDaemon start
+ 2174  fprintd-enroll 
+ 2175  fprint_demo 
+ 2176  export LC_ALL=C
+ 2177  ./vcsFPServiceDaemon stop
+ 2178  ./vcsFPServiceDaemon start
+ 2179  fprint_demo 
+ 2180  ./vcsFPServiceDaemon stop
+ 2181  ./vcsFPServiceDaemon start
+ 2182  fprint_demo 
+ 2183  ./vcsFPServiceDaemon stop
+ 2184  ./vcsFPServiceDaemon start
+ 2185  fprint_demo 
+ 2186  ./vcsFPServiceDaemon stop
+ 2187  ./vcsFPServiceDaemon start
+ 2188  fprintd-enroll 
+ 2189  fprint_demo &
+ 2190  fprintd-enroll 
+ 2191  ./vcsFPServiceDaemon stop
+ 2192  ./vcsFPServiceDaemon start
+ 2193  yum provides *\/net/reactivated/Fprint/Device/0
+ 2194  fprintd-enroll 
+ 2195  lsusb
+ 2196  mv /home/c4pt/Downloads/sp84530.tar .
+ 2197  tar -xvf sp84530.tar 
+ 2198  cd SP84530/
+ 2199  ls ../
+ 2200  rpm -Uvh --force Validity-Sensor-Setup-4.5-136.0.x86_64.rpm 
+ 2201  yum provides *\insserv
+ 2202  yum provides *\sbin/insserv
+ 2203  yum provides *\/usr/sbin/insserv
+ 2204  rpm -Uvh --force Validity-Sensor-Setup-4.5-136.0.x86_64.rpm 
+ 2205  fprintd-enroll 

@@ -1,0 +1,88 @@
+--- libfprint/fprint.h	2009-01-26 14:22:08.000000000 +0100
++++ libfprint/fprint.h	2009-01-26 14:25:40.000000000 +0100
+@@ -89,6 +89,7 @@
+ /* Device handling */
+ struct fp_dev *fp_dev_open(struct fp_dscv_dev *ddev);
+ void fp_dev_close(struct fp_dev *dev);
++void fp_dev_reset(struct fp_dev *dev);
+ struct fp_driver *fp_dev_get_driver(struct fp_dev *dev);
+ int fp_dev_get_nr_enroll_stages(struct fp_dev *dev);
+ uint32_t fp_dev_get_devtype(struct fp_dev *dev);
+--- libfprint/drivers/aes2501.c	2008-03-20 14:37:33.000000000 +0100
++++ libfprint/drivers/aes2501.c	2009-01-26 14:25:40.000000000 +0100
+@@ -248,6 +248,11 @@
+ 	usb_release_interface(dev->udev, 0);
+ }
+ 
++static void dev_reset(struct  fp_img_dev *dev)
++{
++	// reset stub
++}
++
+ static const struct aes_regwrite finger_det_reqs[] = {
+ 	{ AES2501_REG_CTRL1, AES2501_CTRL1_MASTER_RESET },
+ 	{ AES2501_REG_EXCITCTRL, 0x40 },
+@@ -584,6 +589,7 @@
+ 
+ 	.init = dev_init,
+ 	.exit = dev_exit,
++	.reset = dev_reset,
+ 	.await_finger_on = await_finger_on,
+ 	.capture = capture,
+ };
+--- libfprint/drivers/upekts.c	2008-03-20 14:37:33.000000000 +0100
++++ libfprint/drivers/upekts.c	2009-01-26 14:29:04.000000000 +0100
+@@ -546,6 +546,14 @@
+ 	g_free(dev->priv);
+ }
+ 
++static void dev_reset(struct fp_dev *dev)
++{
++	/* should not be necessary */
++	//dev_init(dev, 0L);
++	do_init(dev);
++	do_deinit(dev);
++}
++
+ static const unsigned char enroll_init[] = {
+ 	0x02, 0xc0, 0xd4, 0x01, 0x00, 0x04, 0x00, 0x08
+ };
+@@ -817,6 +825,7 @@
+ 	.id_table = id_table,
+ 	.init = dev_init,
+ 	.exit = dev_exit,
++	.reset = dev_reset,
+ 	.enroll = enroll,
+ 	.verify = verify,
+ };
+--- libfprint/core.c	2009-01-26 14:22:08.000000000 +0100
++++ libfprint/core.c	2009-01-26 14:25:40.000000000 +0100
+@@ -1167,3 +1167,10 @@
+ 	registered_drivers = NULL;
+ }
+ 
++API_EXPORTED void fp_dev_reset(struct fp_dev *dev)
++{
++	if (!dev)
++		return;
++	if (dev->drv->reset)
++		dev->drv->reset(dev);
++}
+--- libfprint/fp_internal.h	2009-01-26 14:33:49.000000000 +0100
++++ libfprint/fp_internal.h	2009-01-26 14:25:40.000000000 +0100
+@@ -111,6 +111,7 @@
+ 	int (*discover)(const struct usb_id *usb_id, uint32_t *devtype);
+ 	int (*init)(struct fp_dev *dev, unsigned long driver_data);
+ 	void (*exit)(struct fp_dev *dev);
++	void (*reset)(struct fp_dev *dev);
+ 	int (*enroll)(struct fp_dev *dev, gboolean initial, int stage,
+ 		struct fp_print_data **print_data, struct fp_img **img);
+ 	int (*verify)(struct fp_dev *dev, struct fp_print_data *data,
+@@ -135,6 +136,7 @@
+ 	/* Device operations */
+ 	int (*init)(struct fp_img_dev *dev, unsigned long driver_data);
+ 	void (*exit)(struct fp_img_dev *dev);
++	void (*reset)(struct fp_dev *dev);
+ 	int (*await_finger_on)(struct fp_img_dev *dev);
+ 	int (*await_finger_off)(struct fp_img_dev *dev);
+ 	int (*capture)(struct fp_img_dev *dev, gboolean unconditional,

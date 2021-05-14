@@ -1,0 +1,22 @@
+--- libfprint/fprint.h-old	2008-09-26 15:36:08.000000000 +0200
++++ libfprint/fprint.h	2008-09-26 15:36:14.000000000 +0200
+@@ -22,6 +22,10 @@
+ 
+ #include <stdint.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /* structs that applications are not allowed to peek into */
+ struct fp_dscv_dev;
+ struct fp_dscv_print;
+@@ -269,5 +273,8 @@
+ int fp_init(void);
+ void fp_exit(void);
+ 
++#ifdef  __cplusplus
++}
+ #endif
+ 
++#endif
