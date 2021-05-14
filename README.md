@@ -47,3 +47,7 @@ Lenovo forums: [https://forums.lenovo.com/t5/Linux-Discussion/Validity-Fingerpri
 | Image format  		        | In progress  			      | Done        | Not Started |
 
 
+original code here
+https://github.com/nmikhailov/Validity90
+https://balintbanyasz.wordpress.com/2015/03/27/get-validity-vfs-495-fingerprint-reader-working-in-ubuntu-14-04/
+https://forums.linuxmint.com/viewtopic.php?t=302947
