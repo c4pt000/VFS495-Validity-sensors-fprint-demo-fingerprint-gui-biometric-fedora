@@ -69,9 +69,11 @@ systemctl start vcsFPServiceDaemon
 ```
 
 restart script
-
+<br>
 nano /usr/bin/restart-fingerprint.sh
+<br>
 chmod +x /usr/bin/restart-fingerprint.sh
+<br>
 
 restart-fingerprint.sh
 ----------------------
