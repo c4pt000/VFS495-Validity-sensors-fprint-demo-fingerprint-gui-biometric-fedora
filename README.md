@@ -1,4 +1,10 @@
-**WIP
+# REALLY BUGGY **WIP
+
+to disable fingerprint login as a regular user move the .fprint dir out of the way
+$ mv /home/c4pt/.fprint /home/c4pt/.fprint.null
+
+
+
 
 # Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
 revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of fedora ~20)
