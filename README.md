@@ -56,25 +56,33 @@ echo "auth        sufficient    pam_fprint.so" >> /etc/authselect/system-auth
 ```
 
 
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
 ```
-
-
-
-
-
-
+systemctl stop vcsFPServiceDaemon
+systemctl start vcsFPServiceDaemon
 ```
+cli:
+
+pam_fprint_enroll
+
+gui:
+fprint_demo
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+
+
+
+
 # really buggy implementation
 
 requires restarting vcsFPService
