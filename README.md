@@ -121,7 +121,8 @@ Bus 001 Device 006: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reade
 
 ```
 groupadd fingerprint
-usermod --append --groups fingerprint <Your User Name>
+usermod -a -G fingerprint <Your User Name>
+usermod -a -G input <Your User Name>
 
 /etc/udev/rules.d/45-fingerprint.rules
 
