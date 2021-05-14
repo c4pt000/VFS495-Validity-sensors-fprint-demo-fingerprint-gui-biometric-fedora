@@ -63,17 +63,28 @@ systemctl enable vcsFPServiceDaemon
 systemctl start vcsFPServiceDaemon
 
 
-echo "auth        sufficient    pam_fprint.so" >> /etc/pam.d/system-local-login
-
-echo "auth        sufficient    pam_fprint.so" >> /etc/pam.d/system-auth
-
-echo "auth        sufficient    pam_fprint.so" >> /etc/authselect/system-auth
-
-echo "auth      sufficient pam_fprint.so" >>  /etc/pam.d/lightdm-greeter
 
 echo "auth      sufficient pam_fprint.so" >>  /etc/pam.d/sudo
+echo "auth      sufficient pam_fprintd.so" >>  /etc/pam.d/sudo
+
+```
+
+/etc/pam.d/sudo
+---------------------
+```
+auth		sufficient  	pam_fprint.so
+auth		sufficient  	pam_fprintd.so
 
 
+auth       include      system-auth
+account    include      system-auth
+password   include      system-auth
+session    optional     pam_keyinit.so revoke
+session    required     pam_limits.so
+session    include      system-auth
+
+--------------------------------------
+```
 
 
 
