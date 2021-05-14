@@ -46,9 +46,4 @@ Lenovo forums: [https://forums.lenovo.com/t5/Linux-Discussion/Validity-Fingerpri
 | 97: Ops: enroll, check, reset, LED, etc| In progress  			      | Check works  | Not Started |
 | Image format  		        | In progress  			      | Done        | Not Started |
 
-## Donations
 
-Please consider donating to support the development.  
-With paypal: [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/nmikhailov/0usd)  
-With BTC: 1AsoCUGNVniBSBS359u2wKrA2CZiTgKZkM  
-With ETH: 0x005D8d9b5609b9A3Ec8B3cBd463a949405A8d621  
