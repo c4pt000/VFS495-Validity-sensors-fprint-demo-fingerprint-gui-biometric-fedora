@@ -4,6 +4,7 @@ to disable fingerprint functions in system as a regular user move the .fprint di
 <br>
 $ mv /home/c4pt/.fprint /home/c4pt/.fprint.null
 <br>
+see restart-fingerprint.sh script
 
 
 
