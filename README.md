@@ -60,15 +60,22 @@ echo "auth        sufficient    pam_fprint.so" >> /etc/authselect/system-auth
 systemctl stop vcsFPServiceDaemon
 systemctl start vcsFPServiceDaemon
 ```
-cli:
 
+command line enroll cli:
+<br>
 pam_fprint_enroll
-
-gui:
+<br>
+gui based enroll:
+<br>
 fprint_demo
 
 <br>
 <br>
+```
+lsusb 
+
+Bus 001 Device 006: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
+```
 <br>
 <br>
 <br>
