@@ -1,8 +1,0 @@
-*.pro
-*.config
-*.creator
-*.files
-*.includes
-*.swp
-*.user
-__pycache__

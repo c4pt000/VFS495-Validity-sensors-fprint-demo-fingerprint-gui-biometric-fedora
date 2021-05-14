@@ -1,0 +1,2 @@
+# fingerprint authentication trough fprintd
+auth    sufficient                      pam_fprint.so

@@ -1,0 +1,55 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          Validity Fingerprint Service Daemon
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 5
+# Default-Stop:      0 6
+# Short-Description: Validity Fingerprint Service Daemon
+# Description:       Start vcsFPService to provide Validity FP Service
+### END INIT INFO
+#
+# Note on runlevels:
+# 0 - halt/poweroff 			6 - reboot
+# 1 - single user			2 - multiuser without network exported
+# 3 - multiuser w/ network (text mode)  5 - multiuser w/ network and X11 (xdm)
+#
+
+. /lib/lsb/init-functions
+
+vcsFPService_BIN=/usr/bin/vcsFPService
+test -x $vcsFPService_BIN || { echo "$vcsFPServiceDaemon is not installed";
+	if [ "$1" = "stop" ]; then exit 0;
+	else exit 5; fi; }
+
+case "$1" in
+    start)
+	echo -n "Starting vcsFPService Daemon \n"
+	start-stop-daemon --start --background --quiet --exec "$vcsFPService_BIN" > /dev/null 2 >&1
+
+	;;
+    stop)
+	echo -n "Stopping  vcsFPService Daemon \n"
+
+	#/sbin/killall -TERM $vcsFPService_BIN
+	start-stop-daemon --stop  --quiet --quiet --oknodo --retry=0/1/KILL/5 --exec "$vcsFPService_BIN" > /dev/null 2 >&1
+	;;
+    status)
+	echo  "Checking for vcsFPService Daemon \n"
+
+	if pidof -o %PPID $vcsFPService_BIN> /dev/null; then
+		echo  "client is running. \n"
+		exit 0
+	else
+		echo  "client is not running. \n"
+		exit 1
+	fi
+	;;
+    *)
+	echo "Usage: $0 {start|stop|status}"
+	exit 1
+	;;
+esac
+
+exit 0
+
