@@ -45,14 +45,15 @@ source /root/.bashrc
 ln -s /usr/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.0.9.8
 ln -s /usr/lib64/libssl.so.1.1 /usr/lib64/libssl.so.0.9.8
 
-cp -rf libfprint-0.0.6-2.x86_64.rpm /
-cd /
-rpm2cpio libfprint-0.0.6-2.x86_64.rpm | cpio -idmv
+rpm2cpio libfprint-0.0.6-2.x86_64.rpm | cpio -idmv /
+ldconfig
 
 rpm -Uvh pam_fprint-0.2-1.x86_64.rpm
 ln -s /usr/lib/security/pam_fprint.so /usr/lib64/security/pam_fprint.so
 cp -rf lib/security/pam_fprint.so /usr/lib64/
-ldconfig
+mkdir /usr/lib/security
+cp -rf lib/security/pam_fprint.so /usr/lib/security/pam_fprint.so
+
 
 
 rpm -Uvh --force Validity-Sensor-Setup-4.5-118.00.x86_64.rpm
@@ -60,6 +61,7 @@ rm -rf /etc/rc.d/init.d/vcsFPServiceDaemon
 cp -rf vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
 systemctl enable vcsFPServiceDaemon
 systemctl start vcsFPServiceDaemon
+
 
 echo "auth        sufficient    pam_fprint.so" >> /etc/pam.d/system-local-login
 
