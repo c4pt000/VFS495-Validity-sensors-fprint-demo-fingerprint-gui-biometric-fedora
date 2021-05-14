@@ -9,6 +9,8 @@ revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of f
 cp -rf vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
 systemctl enable vcsFPServiceDaemon
 systemctl start vcsFPServiceDaemon
+export LC_ALL=C >> /root/.bashrc
+source /root/.bashrc
 ```
 
 
