@@ -1,7 +1,7 @@
 **WIP
 
 # Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora
-revitalized fprint_demo-gui for fprintd-enroll gui
+revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of fedora ~20)
 
 ![s1](https://raw.githubusercontent.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/master/finger-detect-image.png)
 
