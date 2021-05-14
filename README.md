@@ -1,8 +1,9 @@
 # REALLY BUGGY **WIP
 
-to disable fingerprint login as a regular user move the .fprint dir out of the way
+to disable fingerprint functions in system as a regular user move the .fprint dir out of the way
+<br>
 $ mv /home/c4pt/.fprint /home/c4pt/.fprint.null
-
+<br>
 
 
 
