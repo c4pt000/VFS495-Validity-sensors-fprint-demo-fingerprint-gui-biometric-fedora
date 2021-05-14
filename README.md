@@ -13,7 +13,18 @@ export LC_ALL=C >> /root/.bashrc
 source /root/.bashrc
 ```
 
+```
+rpm -qa fprin
+fprintd-1.90.9-2.fc34.x86_64
+fprintd-pam-1.90.9-2.fc34.x86_64
+fprintd-devel-1.90.9-2.fc34.noarch
+fprint-demo-0.4-2.x86_64
+pam_fprint-0.2-1.x86_64
 
+cp -rf libfprint-0.0.6-2.x86_64.rpm /
+rpm2cpio libfprint-0.0.6-2.x86_64.rpm | cpio -idmv
+ldconfig
+```
 <br>
 <br>
 <br>
