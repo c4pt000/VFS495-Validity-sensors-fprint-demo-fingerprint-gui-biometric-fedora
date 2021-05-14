@@ -77,6 +77,25 @@ lsusb
 Bus 001 Device 006: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
 ```
 <br>
+* allow regular user to access fingerprint sensor replace <Your User Name> with username of user
+
+```
+groupadd fingerprint
+usermod --append --groups fingerprint <Your User Name>
+
+/etc/udev/rules.d/45-fingerprint.rules
+
+
+--------------------------------------
+
+SUBSYSTEM=="usb_device", ACTION=="add",
+SYSFS{idVendor}=="138a" ,
+SYSFS{idProduct}=="003f",
+SYMLINK+="fingerprint-%k",
+GROUP="fingerprint",
+MODE="666"
+```
+
 <br>
 <br>
 <br>
