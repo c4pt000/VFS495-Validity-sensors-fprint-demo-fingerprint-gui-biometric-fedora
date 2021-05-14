@@ -4,7 +4,16 @@
 revitalized fprint_demo-gui for fprintd-enroll gui (dinosaurs from the dead of fedora ~20)
 
 ![s1](https://raw.githubusercontent.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/master/finger-detect-image.png)
+![s1](https://raw.githubusercontent.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/master/success-enroll.png)
+```
+might also require manual unpack of RPMS/SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm for sensor stability
 
+cp -rf SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm /
+rpm2cpio SP84530_Validity-Sensor-Setup-4.5-136.0.x86_64.rpm | cpio -idmv
+
+then sh install.sh
+
+```
 ```
 cp -rf etc/init.d/vcsFPServiceDaemon /etc/rc.d/init.d/vcsFPServiceDaemon
 
