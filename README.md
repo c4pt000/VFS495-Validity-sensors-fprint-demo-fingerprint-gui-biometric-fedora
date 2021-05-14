@@ -63,12 +63,15 @@ systemctl start vcsFPServiceDaemon
 
 command line enroll cli:
 <br>
+```
 pam_fprint_enroll
+```
 <br>
 gui based enroll:
 <br>
+```
 fprint_demo
-
+```
 <br>
 <br>
 ```
