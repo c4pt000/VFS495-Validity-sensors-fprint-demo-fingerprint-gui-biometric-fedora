@@ -50,20 +50,19 @@ crontab -e
 ```
 ```
 @reboot                                /usr/bin/restart-fingerprint.sh
-*/1   *       *       *       *       /usr/bin/restart-fingerprint.sh
+*/5   *       *       *       *       /usr/bin/restart-fingerprint.sh
 
 ```
 
 cat /usr/bin/restart-fingerprint.sh 
 ```
 #!/bin/bash
-while :
-do
+
 systemctl stop vcsFPServiceDaemon
 systemctl daemon-reload
 systemctl start vcsFPServiceDaemon
-sleep 5m
-done
+
+
 ```
 
 
