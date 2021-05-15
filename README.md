@@ -37,6 +37,15 @@ so far with
 Bus 001 Device 031: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
 <br>
 
+```
+export EDITOR=nano
+crontab -e
+```
+```
+@reboot                                root    /usr/bin/restart-fingerprint.sh
+*/1   *       *       *       *       root    /usr/bin/restart-fingerprint.sh
+```
+
 cat /usr/bin/restart-fingerprint.sh 
 ```
 #!/bin/bash
