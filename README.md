@@ -37,6 +37,13 @@ so far with
 Bus 001 Device 031: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
 <br>
 
+
+
+* crond script to autorun restart for VFS495 sensor for fingerprint sensor to be more reactive to work
+* script runs continuously every 5 minutes restarting the systemctl function to load the usb fingerprint module 
+* since once the systemctl starts "once" the usb module can timeout and lose functionality causing issues where the usb module has to be
+* reloaded hence this crond script to reload the usb module every 5 minutes,
+
 ```
 export EDITOR=nano
 crontab -e
