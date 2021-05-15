@@ -1,4 +1,24 @@
 # REALLY BUGGY **WIP
+requires
+```
+pam_passwdqc-1.4.0-3.fc34.x86_64
+gnome-keyring-pam-40.0-1.fc34.x86_64
+systemd-pam-248.2-1.fc34.x86_64
+pam-devel-1.5.1-5.fc34.x86_64
+fprintd-pam-1.90.9-2.fc34.x86_64
+pam_fprint-0.2-1.x86_64
+pam-1.5.1-5.fc34.x86_64
+
+
+authselect-libs-1.2.3-1.fc34.x86_64
+authselect-1.2.3-1.fc34.x86_64
+authselect-compat-1.2.3-1.fc34.x86_64
+
+```
+
+
+
+
 
 xscreensaver fprintd support
 https://github.com/c4pt000/xscreensaver-fingerprint-atomic
