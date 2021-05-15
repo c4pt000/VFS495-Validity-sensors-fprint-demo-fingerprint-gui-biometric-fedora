@@ -49,8 +49,9 @@ export EDITOR=nano
 crontab -e
 ```
 ```
-@reboot                                root    /usr/bin/restart-fingerprint.sh
-*/1   *       *       *       *       root    /usr/bin/restart-fingerprint.sh
+@reboot                                /usr/bin/restart-fingerprint.sh
+*/1   *       *       *       *       /usr/bin/restart-fingerprint.sh
+
 ```
 
 cat /usr/bin/restart-fingerprint.sh 
