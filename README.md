@@ -16,7 +16,19 @@ authselect-compat-1.2.3-1.fc34.x86_64
 
 ```
 
+restart script for VFS495 sensor for crond sensor times out and has weird issues for VFS495 Bus 001 Device 031: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
 
+cat /usr/bin/restart-fingerprint.sh 
+```
+#!/bin/bash
+while :
+do
+systemctl stop vcsFPServiceDaemon
+systemctl daemon-reload
+systemctl start vcsFPServiceDaemon
+sleep 5m
+done
+```
 
 
 
