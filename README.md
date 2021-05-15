@@ -1,5 +1,6 @@
-# REALLY BUGGY **WIP
+# REALLY,REALLY,REALLY-> (with VFS495) BUGGY **WIP
 requires
+
 ```
 pam_passwdqc-1.4.0-3.fc34.x86_64
 gnome-keyring-pam-40.0-1.fc34.x86_64
@@ -15,6 +16,11 @@ authselect-1.2.3-1.fc34.x86_64
 authselect-compat-1.2.3-1.fc34.x86_64
 
 ```
+wget https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/raw/master/pam.d.tar.gz-FPRINT-current-lightdm-sudo-xscreensaver.tar.gz
+wget https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/raw/master/authselect-FPRINT-current-lightdm-sudo-xscreensaver.tar.gz
+
+/etc/pam.d
+/etc/authselect
 
 restart script for VFS495 sensor for crond sensor times out and has weird issues for VFS495 Bus 001 Device 031: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
 
