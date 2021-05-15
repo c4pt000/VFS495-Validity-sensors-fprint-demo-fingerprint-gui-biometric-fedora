@@ -59,7 +59,7 @@ cat /usr/bin/restart-fingerprint.sh
 chmod +x /usr/bin/restart-fingerprint.sh
 <br>
 /usr/bin/restart-fingerprint.sh &
-<br>
+
 ```
 #!/bin/bash
 systemctl stop vcsFPServiceDaemon
