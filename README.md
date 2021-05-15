@@ -1,6 +1,9 @@
 # REALLY,REALLY,REALLY-> (with VFS495) BUGGY **WIP
 requires
 
+# setenforce -> 0 (unless you train SELinux to catch all the permissions errros to allow lightdm, the sensor, dbus, /user/.fprint still working on a SELinux auto label to allow these fprint functions within "enforcing"
+
+
 ```
 pam_passwdqc-1.4.0-3.fc34.x86_64
 gnome-keyring-pam-40.0-1.fc34.x86_64
