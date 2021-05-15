@@ -1,3 +1,5 @@
+todo: replace time based crond script to restart usb-services with a watchdog function to restart service when usb process idles from /var/log as a pid
+
 # REALLY,REALLY,REALLY-> (with VFS495) BUGGY **WIP
 
 # to disable fprint with lightdm, xscreensaver, sudo begin
