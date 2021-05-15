@@ -4,6 +4,7 @@ todo: replace time based crond script to restart usb-services with a watchdog fu
 
 # to disable fprint with lightdm, xscreensaver, sudo begin
 
+/etc/pam.d/...
 
 these two TOP lines require a comment for each of these pam.d configuration files to disable fprint in each file
 ```
