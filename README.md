@@ -146,6 +146,9 @@ SYSFS{idProduct}=="003f",
 SYMLINK+="fingerprint-%k",
 GROUP="fingerprint",
 MODE="666"
+
+KERNEL=="uinput", MODE="0660", GROUP="fingerprint"
+
 ```
 
 <br>
