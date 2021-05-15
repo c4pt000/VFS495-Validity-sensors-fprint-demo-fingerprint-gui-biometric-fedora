@@ -127,7 +127,7 @@ fprint_demo
 
 ```
 lsusb 
-
+```
 Bus 001 Device 006: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
 ```
 <br>
@@ -155,7 +155,7 @@ MODE="666"
 KERNEL=="uinput", MODE="666", GROUP="fingerprint"
 
 ```
-```
+
 
 <br>
 <br>
