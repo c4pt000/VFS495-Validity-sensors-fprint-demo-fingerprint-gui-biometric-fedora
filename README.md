@@ -28,7 +28,14 @@ wget https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-bio
 /etc/pam.d
 /etc/authselect
 
-restart script for VFS495 sensor for crond sensor times out and has weird issues for VFS495 Bus 001 Device 031: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
+restart script for VFS495 sensor for crond
+<br>
+since sensor times out and has weird issues for VFS495 
+<br>
+so far with
+<br>
+Bus 001 Device 031: ID 138a:003f Validity Sensors, Inc. VFS495 Fingerprint Reader
+<br>
 
 cat /usr/bin/restart-fingerprint.sh 
 ```
