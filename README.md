@@ -19,9 +19,12 @@ authselect-1.2.3-1.fc34.x86_64
 authselect-compat-1.2.3-1.fc34.x86_64
 
 ```
+```
 wget https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/raw/master/pam.d.tar.gz-FPRINT-current-lightdm-sudo-xscreensaver.tar.gz
+```
+```
 wget https://github.com/c4pt000/Validity-sensors-fprint-demo-fingerprint-gui-biometric-fedora/raw/master/authselect-FPRINT-current-lightdm-sudo-xscreensaver.tar.gz
-
+```
 /etc/pam.d
 /etc/authselect
 
