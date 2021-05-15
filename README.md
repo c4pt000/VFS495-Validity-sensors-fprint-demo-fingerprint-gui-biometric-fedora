@@ -1,5 +1,8 @@
 # REALLY BUGGY **WIP
 
+xscreensaver fprintd support
+https://github.com/c4pt000/xscreensaver-fingerprint-atomic
+
 to disable fingerprint functions in system as a regular user move the .fprint dir out of the way
 <br>
 $ mv /home/c4pt/.fprint /home/c4pt/.fprint.null
