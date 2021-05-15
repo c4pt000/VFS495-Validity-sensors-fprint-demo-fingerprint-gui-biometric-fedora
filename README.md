@@ -138,10 +138,12 @@ groupadd fingerprint
 usermod -a -G fingerprint <Your User Name>
 usermod -a -G input <Your User Name>
 
+
+```
 /etc/udev/rules.d/45-fingerprint.rules
 
-
---------------------------------------
+your vendor id, device id
+-----------------------------------
 
 SUBSYSTEM=="usb_device", ACTION=="add",
 SYSFS{idVendor}=="138a" ,
@@ -150,8 +152,9 @@ SYMLINK+="fingerprint-%k",
 GROUP="fingerprint",
 MODE="666"
 
-KERNEL=="uinput", MODE="0660", GROUP="fingerprint"
+KERNEL=="uinput", MODE="666", GROUP="fingerprint"
 
+```
 ```
 
 <br>
